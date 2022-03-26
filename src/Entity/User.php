@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -42,6 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     private $photo;
+
+    #[ORM\ManyToMany(targetEntity: TrainingLesson::class)]
+    private $learnedLessons;
+
+    public function __construct()
+    {
+        $this->learnedLessons = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -174,6 +184,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto(string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrainingLesson>
+     */
+    public function getLearnedLessons(): Collection
+    {
+        return $this->learnedLessons;
+    }
+
+    public function addLearnedLesson(TrainingLesson $learnedLesson): self
+    {
+        if (!$this->learnedLessons->contains($learnedLesson)) {
+            $this->learnedLessons[] = $learnedLesson;
+        }
+
+        return $this;
+    }
+
+    public function removeLearnedLesson(TrainingLesson $learnedLesson): self
+    {
+        $this->learnedLessons->removeElement($learnedLesson);
 
         return $this;
     }
