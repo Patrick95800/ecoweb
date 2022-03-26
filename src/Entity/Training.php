@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 #[ORM\Entity(repositoryClass: TrainingRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Training
 {
     #[ORM\Id]
@@ -30,11 +31,11 @@ class Training
     private $sections;
 
     #[Gedmo\Timestampable(on: 'create')]
-    #[ORM\Column(name: 'created', type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private $createdAt;
 
-    #[ORM\Column(name: 'updated', type: Types::DATETIME_MUTABLE)]
-    #[Gedmo\Timestampable]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Gedmo\Timestampable(on: 'update')]
     private $updatedAt;
 
     public function __toString(): string
@@ -118,24 +119,24 @@ class Training
         return $this;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt): self
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt()
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTime $updatedAt): self
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
