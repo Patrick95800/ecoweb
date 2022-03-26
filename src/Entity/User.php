@@ -33,16 +33,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $username;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $firstname;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $lastname;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\OneToOne(targetEntity: File::class, cascade: ['persist', 'remove'])]
     private $photo;
 
     #[ORM\ManyToMany(targetEntity: TrainingLesson::class)]
@@ -176,12 +176,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getPhoto(): ?File
     {
         return $this->photo;
     }
 
-    public function setPhoto(string $photo): self
+    public function setPhoto(?File $photo): self
     {
         $this->photo = $photo;
 

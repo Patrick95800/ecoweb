@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+	{% if app.request.attributes.get('_route') == 'backend_users_edit' %}
+        {% if user.photo is defined and user.photo %}
+            <h2>Photo</h2>
+            <div>
+                <img src="{{ asset('/uploads/' ~ user.photo.name) }}" alt="" width="150">
+                <a href="{{ path('backend_users_delete_image', { id: user.id, fileId: user.photo.id }) }}" data-delete data-token="{{ csrf_token('delete' ~ user.photo.id )}}">Supprimer</a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}
