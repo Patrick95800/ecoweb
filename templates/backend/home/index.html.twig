@@ -1,0 +1,30 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="custom-banner py-md-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="text-center text-white">
+                <h1 class="display-4 fw-bolder">Administration Ecoweb</h1>
+                <p class="lead fw-normal text-white-50 mb-0">Espace de gestion</p>
+            </div>
+        </div>
+    </div>
+    <div>
+        {% if is_granted(constant('App\\Entity\\User::ROLE_TEACHER')) %}
+            <br>
+            <p>En tant qu'instructeur vous avez la possibilité de :</p>
+            <ul>
+                <li>Afficher, éditer, ajouter des formations/lecons/quizz.</li>
+            </ul>
+        {% endif %}
+        {% if is_granted(constant('App\\Entity\\User::ROLE_ADMIN')) %}
+            <br>
+            <p>En tant qu'administrateur.trice vous avez la possibilité de :</p>
+            <ul>
+                <li>Afficher, éditer, ajouter des utilisateurs.</li>
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

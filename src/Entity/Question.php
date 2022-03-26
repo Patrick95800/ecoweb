@@ -21,6 +21,10 @@ class Question
     #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
     private $answers;
 
+    #[ORM\ManyToOne(targetEntity: Quizz::class, inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $quizz;
+
     public function __toString(): string
     {
         return $this->title;
@@ -74,6 +78,18 @@ class Question
                 $answer->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQuizz(): ?Quizz
+    {
+        return $this->quizz;
+    }
+
+    public function setQuizz(?Quizz $quizz): self
+    {
+        $this->quizz = $quizz;
 
         return $this;
     }

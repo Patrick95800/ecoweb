@@ -26,7 +26,7 @@ security:
             custom_authenticator: App\Security\LoginFormAuthenticator
 
     access_control:
-        #- { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/, roles: PUBLIC_ACCESS }
 
 when@test:
