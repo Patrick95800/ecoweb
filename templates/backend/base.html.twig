@@ -43,6 +43,9 @@
                             {% if is_granted(constant('App\\Entity\\User::ROLE_ADMIN')) %}
                                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('backend_users') }}">Utilisateurs</a></li>
                             {% endif %}
+                            {% if is_granted(constant('App\\Entity\\User::ROLE_TEACHER')) %}
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('backend_quizzes') }}">Quizzes</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

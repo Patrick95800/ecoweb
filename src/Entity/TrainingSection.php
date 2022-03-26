@@ -25,7 +25,7 @@ class TrainingSection
     #[ORM\OneToMany(mappedBy: 'trainingSection', targetEntity: TrainingLesson::class, orphanRemoval: true)]
     private $lessons;
 
-    #[ORM\OneToOne(targetEntity: Quizz::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'trainingSection', targetEntity: Quizz::class, cascade: ['persist', 'remove'])]
     private $quizz;
 
     public function __construct()

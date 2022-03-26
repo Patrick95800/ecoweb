@@ -1,0 +1,33 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Liste des quizz{% endblock %}
+
+{% block body %}
+    <h1>Liste des quizz</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Section associée</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for quizz in quizzes %}
+            <tr>
+                <td>{{ quizz.trainingSection }}</td>
+                <td>
+                    <a href="{{ path('backend_quizzes_show', {'id': quizz.id}) }}">Afficher</a>
+                    <a href="{{ path('backend_quizzes_edit', {'id': quizz.id}) }}">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2">Aucun quizz trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('backend_quizzes_new') }}">Créer un nouveau quizz</a>
+{% endblock %}

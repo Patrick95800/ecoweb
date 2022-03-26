@@ -18,6 +18,9 @@ class Quizz
     #[ORM\OneToMany(mappedBy: 'quizz', targetEntity: Question::class, orphanRemoval: true)]
     private $questions;
 
+    #[ORM\OneToOne(mappedBy: 'quizz', targetEntity: TrainingSection::class, cascade: ['persist', 'remove'])]
+    private $trainingSection;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -54,6 +57,28 @@ class Quizz
                 $question->setQuizz(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTrainingSection(): ?TrainingSection
+    {
+        return $this->trainingSection;
+    }
+
+    public function setTrainingSection(?TrainingSection $trainingSection): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($trainingSection === null && $this->trainingSection !== null) {
+            $this->trainingSection->setQuizz(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($trainingSection !== null && $trainingSection->getQuizz() !== $this) {
+            $trainingSection->setQuizz($this);
+        }
+
+        $this->trainingSection = $trainingSection;
 
         return $this;
     }
