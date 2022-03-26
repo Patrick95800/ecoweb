@@ -28,14 +28,14 @@ class TrainingSection
     #[ORM\OneToOne(inversedBy: 'trainingSection', targetEntity: Quizz::class, cascade: ['persist', 'remove'])]
     private $quizz;
 
+    public function __toString(): string
+    {
+        return sprintf('%s - %s', $this->training->getTitle(), $this->title);
+    }
+
     public function __construct()
     {
         $this->lessons = new ArrayCollection();
-    }
-
-    public function __toString(): string
-    {
-        return $this->title;
     }
 
     public function getId(): ?int

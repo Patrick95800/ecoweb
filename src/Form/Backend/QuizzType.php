@@ -2,7 +2,6 @@
 
 namespace App\Form\Backend;
 
-use App\Entity\Hotel;
 use App\Entity\Quizz;
 use App\Entity\TrainingSection;
 use Doctrine\ORM\EntityRepository;
@@ -30,7 +29,10 @@ class QuizzType extends AbstractType
                 ]
             ])
             ->add('questions', CollectionType::class, [
-                'label' => 'Questions'
+                'label' => 'Questions',
+                'entry_type' => QuestionType::class,
+                'allow_add' => true,
+                'allow_delete' => true
             ])
         ;
     }

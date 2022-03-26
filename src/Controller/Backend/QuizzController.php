@@ -58,7 +58,7 @@ class QuizzController extends AbstractController
             return $this->redirectToRoute('backend_quizzes', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('quizz/edit.html.twig', [
+        return $this->renderForm('backend/quizz/edit.html.twig', [
             'quizz' => $quizz,
             'form' => $form,
         ]);
