@@ -11,6 +11,23 @@
                 <th>Section associée</th>
                 <td>{{ quizz.trainingSection }}</td>
             </tr>
+            <tr>
+                <th>Questions</th>
+                <td>
+                    {% for question in quizz.questions %}
+                        <p>
+                            Intitulé : {{ question.title }}
+                        </p>
+                        <ul>
+                            {% for answer in question.answers %}
+                                <li>
+                                    {% if answer.isAnswer %}<strong>Bonne réponse</strong> {% endif %}{{ answer.text }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </td>
+            </tr>
         </tbody>
     </table>
 

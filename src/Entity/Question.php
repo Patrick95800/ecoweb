@@ -18,7 +18,7 @@ class Question
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
-    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'question', targetEntity: Answer::class, orphanRemoval: true, cascade: ['persist'])]
     private $answers;
 
     #[ORM\ManyToOne(targetEntity: Quizz::class, inversedBy: 'questions')]

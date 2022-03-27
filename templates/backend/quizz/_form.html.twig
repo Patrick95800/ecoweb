@@ -1,49 +1,127 @@
 {{ form_start(form) }}
-    {{ form_label(form.questions) }}
-    {{ form_errors(form.questions) }}
+    <h3>Questions</h3>
 
-    <ul id="email-fields-list"
-        data-prototype="{{ form_widget(form.questions.vars.prototype)|e }}"
-        data-widget-tags="{{ '<li></li>'|e }}"
-        data-widget-counter="{{ form.questions|length }}">
-        {% for questionField in form.questions %}
+    {% set answerPrototype = '<li>
+        <label class="required">Réponse</label>
+        <div id="quizz_questions__question_number__answers__answer_number_" class="answer">
+            <div>
+                <label for="quizz_questions__question_number__answers__answer_number__text" class="required">Texte de la réponse</label>
+                <input type="text" id="quizz_questions__question_number__answers__answer_number__text" name="quizz[questions][_question_number_][answers][_answer_number_][text]" required="required" />
+            </div>
+            <div>
+                <label for="quizz_questions__question_number__answers__answer_number__isAnswer" class="required">Est la bonne réponse ?</label>
+                <select id="quizz_questions__question_number__answers__answer_number__isAnswer" name="quizz[questions][_question_number_][answers][_answer_number_][isAnswer]">
+                    <option value="1">Oui</option>
+                    <option value="0" selected>Non</option>
+                </select>
+            </div>
+        </div>
+    </li>' %}
+
+    {% set questionPrototype = '<div id="quizz_questions__question_number_">
+        <div>
+            <label for="quizz_questions__question_number__title" class="required">Intitulé</label>
+            <input type="text" id="quizz_questions__question_number__title" name="quizz[questions][_question_number_][title]" required="required" value="_question_title_">
+        </div>
+        <div>
+            <label class="required">Réponses</label>
+            <ul id="quizz_questions__question_number__answers" data-prototype="' ~ answerPrototype|e('html_attr') ~ '"></div>
+            <button type="button" class="add_answer_link" data-question-number="_question_number_" data-collection-holder-class="quizz_questions__question_number__answers">Ajouter une réponse</button>
+        </div>
+        <button type="button" class="delete_question_link" data-collection-holder-class="questions">Supprimer la question</button>
+    </div>' %}
+
+    <ul id="questions" data-index="{{ quizz.questions|length }}" data-prototype="{{ questionPrototype|e('html_attr') }}">
+        {% for key, question in quizz.questions %}
             <li>
-                {{ form_errors(questionField) }}
-                {{ form_widget(questionField) }}
+                <div id="quizz_questions_{{ key }}">
+                    <div>
+                        <label for="quizz_questions_{{ key }}_title" class="required">Intitulé</label>
+                        <input type="text" id="quizz_questions_{{ key }}_title" name="quizz[questions][{{ key }}][title]" required="required" value="{{ question.title }}">
+                    </div>
+                    <div>
+                        <label class="required">Réponses</label>
+                        <ul id="quizz_questions_{{ key }}_answers" data-prototype="{{ answerPrototype|e('html_attr') }}">
+                            {% for keyAnswer, answer in question.answers %}
+                                <li>
+                                    <label class="required">Réponse</label>
+                                    <div id="quizz_questions_{{ key }}_answers_{{ keyAnswer }}" class="answer">
+                                        <div>
+                                            <label for="quizz_questions_{{ key }}_answers_{{ keyAnswer }}_text" class="required">Texte de la réponse</label>
+                                            <input type="text" id="quizz_questions_{{ key }}_answers_{{ keyAnswer }}_text" name="quizz[questions][{{ key }}][answers][{{ keyAnswer }}][text]" value="{{ answer.text }}" required="required" />
+                                        </div>
+                                        <div>
+                                            <label for="quizz_questions_{{ key }}_answers_{{ keyAnswer }}_isAnswer" class="required">Est la bonne réponse ?</label>
+                                            <select id="quizz_questions_{{ key }}_answers_{{ keyAnswer }}_isAnswer" name="quizz[questions][{{ key }}][answers][{{ keyAnswer }}][isAnswer]">
+                                                <option value="1" {% if answer.isAnswer == true %}selected{% endif %}>Oui</option>
+                                                <option value="0" {% if answer.isAnswer == false %}selected{% endif %}>Non</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <button type="button" class="delete_question_link" data-collection-holder-class="questions">Supprimer la question</button>
+                    <button type="button" class="add_answer_link" data-question-number="{{ key }}" data-collection-holder-class="quizz_questions_{{ key }}_answers">Ajouter une réponse</button>
+                </div>
             </li>
         {% endfor %}
     </ul>
 
-    <button type="button"
-            class="add-question"
-            data-list-selector="#email-fields-list">Ajouter une nouvelle question</button>
+    <button type="button" class="add_question_link" data-collection-holder-class="questions">Ajouter une question</button>
 
+    {% do form.questions.setRendered %}
     {{ form_widget(form) }}
 
     <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}
 
 <script>
-    $(document).ready(function () {
-        $('.add-question').click(function (e) {
-            var list = jQuery(jQuery(this).attr('data-list-selector'));
-            // Try to find the counter of the list or use the length of the list
-            var counter = list.data('widget-counter') || list.children().length;
+    // Add questions
+    const addQuestionToCollection = (e) => {
+        const collectionHolder = document.querySelector('#' + e.currentTarget.dataset.collectionHolderClass);
+        const item = document.createElement('li');
 
-            // grab the prototype template
-            var newWidget = list.attr('data-prototype');
-            // replace the "__name__" used in the id and name of the prototype
-            // with a number that's unique to your emails
-            // end name attribute looks like name="contact[emails][2]"
-            newWidget = newWidget.replace(/__name__/g, counter);
-            // Increase the counter
-            counter++;
-            // And store it, the length cannot be used if deleting widgets is allowed
-            list.data('widget-counter', counter);
+        item.innerHTML = collectionHolder.dataset.prototype
+            .replace(/_question_number_/g, collectionHolder.dataset.index)
+            .replace(/_question_title_/g, '');
 
-            // create a new list element and add it to the list
-            var newElem = jQuery(list.attr('data-widget-tags')).html(newWidget);
-            newElem.appendTo(list);
+        collectionHolder.appendChild(item);
+        collectionHolder.dataset.index++;
+
+        document.querySelectorAll('#questions li .delete_question_link').forEach(btn => {
+            btn.addEventListener("click", removeQuestionFromCollection)
         });
+        document.querySelectorAll('.add_answer_link').forEach(btn => {
+            btn.addEventListener("click", addQuestionAnswerToCollection)
+        });
+    };
+    document.querySelectorAll('.add_question_link').forEach(btn => {
+        btn.addEventListener("click", addQuestionToCollection)
+    });
+
+    // Add answer to existing question
+    const addQuestionAnswerToCollection = (e) => {
+        const collectionHolder = document.querySelector('#' + e.currentTarget.dataset.collectionHolderClass);
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder.dataset.prototype
+            .replace(/_question_number_/g, e.currentTarget.dataset.questionNumber)
+            .replace(/_answer_number_/g, collectionHolder.querySelectorAll('div.answer').length);
+
+        collectionHolder.appendChild(item);
+        collectionHolder.dataset.index++;
+    };
+    document.querySelectorAll('.add_answer_link').forEach(btn => {
+        btn.addEventListener("click", addQuestionAnswerToCollection)
+    });
+
+    // Delete question
+    const removeQuestionFromCollection = (e) => {
+        e.currentTarget.parentNode.parentNode.remove();
+    };
+    document.querySelectorAll('#questions li .delete_question_link').forEach(btn => {
+        btn.addEventListener("click", removeQuestionFromCollection)
     });
 </script>

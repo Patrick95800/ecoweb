@@ -32,7 +32,8 @@ class QuizzType extends AbstractType
                 'label' => 'Questions',
                 'entry_type' => QuestionType::class,
                 'allow_add' => true,
-                'allow_delete' => true
+                'allow_delete' => true,
+                'by_reference' => false,
             ])
         ;
     }

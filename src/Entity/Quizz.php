@@ -15,7 +15,7 @@ class Quizz
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\OneToMany(mappedBy: 'quizz', targetEntity: Question::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'quizz', targetEntity: Question::class, orphanRemoval: true, cascade: ['persist'])]
     private $questions;
 
     #[ORM\OneToOne(mappedBy: 'quizz', targetEntity: TrainingSection::class, cascade: ['persist', 'remove'])]

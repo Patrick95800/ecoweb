@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Edition de quizz</h1>
 
-    {{ include('backend/quizz/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {{ include('backend/quizz/_form.html.twig', {'quizz': quizz, 'button_label': 'Mettre à jour'}) }}
 
     <a href="{{ path('backend_quizzes') }}">Retour à la liste</a>
 
