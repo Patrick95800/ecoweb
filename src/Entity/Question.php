@@ -25,6 +25,9 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private $quizz;
 
+    #[ORM\Column(type: 'text')]
+    private $explanation;
+
     public function __toString(): string
     {
         return $this->title;
@@ -90,6 +93,18 @@ class Question
     public function setQuizz(?Quizz $quizz): self
     {
         $this->quizz = $quizz;
+
+        return $this;
+    }
+
+    public function getExplanation(): ?string
+    {
+        return $this->explanation;
+    }
+
+    public function setExplanation(string $explanation): self
+    {
+        $this->explanation = $explanation;
 
         return $this;
     }

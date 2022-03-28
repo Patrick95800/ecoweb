@@ -18,6 +18,9 @@
                         <p>
                             Intitulé : {{ question.title }}
                         </p>
+                        <p>
+                            Explication : {{ question.explanation }}
+                        </p>
                         <ul>
                             {% for answer in question.answers %}
                                 <li>
