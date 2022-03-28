@@ -5,6 +5,9 @@ services:
     _defaults:
         autowire: true
         autoconfigure: true
+        bind:
+            $defaultName: 'EcoWeb'
+            $defaultEmail: 'patrick.barros.85@gmail.com'
 
     App\:
         resource: '../src/'
