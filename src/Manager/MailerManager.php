@@ -2,7 +2,7 @@
 
 namespace App\Manager;
 
-use App\Entity\Donation;
+use App\Entity\TeacherRequest;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
@@ -34,12 +34,14 @@ class MailerManager
         $this->defaultEmail = $defaultEmail;
     }
 
-    public function sendContactMessage($data)
+    public function sendNewTeacherRequestMessage(TeacherRequest $teacherRequest)
     {
         $this->sendMessage(
             'Nouvelle candidature au poste de formateur',
-            'candidate/mail.html.twig',
-            $data
+            'mail/new_teacher_request.html.twig',
+            [
+                'teacher_request' => $teacherRequest
+            ]
         );
     }
 

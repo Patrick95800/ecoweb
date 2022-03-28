@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Candidature{% endblock %}
+{% block title %}Devenir formateur{% endblock %}
 
 {% block body %}
     <h1>Candidature au poste de formateur</h1>
 
     {{ form_start(form) }}
-    {{ form_widget(form) }}
+        {{ form_widget(form) }}
 
-    <button type="submit" class="btn">Envoyer</button>
+        <button type="submit" class="btn">Envoyer</button>
     {{ form_end(form) }}
 {% endblock %}

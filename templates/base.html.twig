@@ -55,7 +55,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('trainings') }}">Catalogue</a></li>
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('login') }}">Connexion</a></li>
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('candidate') }}">Devenir formateur</a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('teacher_ask') }}">Devenir formateur</a></li>
                     </ul>
                     <form class="d-none d-md-inline-block form-inline">
                         <div class="input-group">
@@ -67,7 +67,19 @@
             </div>
         </nav>
     {% endif %}
+
+    {% if app.request.hasPreviousSession %}
+        {% for label, flashes in app.session.flashbag.all %}
+            {% for flash in flashes %}
+                <div class="alert {% if label == 'error' %}alert-danger{% else %}alert-success{% endif %} clearfix">
+                    <p>{{ flash|trans|raw }}</p>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
     {% block body %}{% endblock %}
+
     <footer>
         {% block footer %}
             <div class="container"><p class="text-center text-white">Copyright &copy; EcoIT 2022</p></div>
