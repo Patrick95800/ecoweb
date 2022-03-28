@@ -9,44 +9,37 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Formation</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Formation 1
-                        </a>
+                        <div class="sb-sidenav-menu-heading">Formations</div>
+                        {% for training in trainings %}
+                            <a class="nav-link" href="{{ path('trainings_show', {'slug': training.slug}) }}">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                {{ training.title }}
+                            </a>
+                        {% endfor %}
+
                         <div class="sb-sidenav-menu-heading">Sessions</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Session 1
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Cours 1</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cours 2</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cours 3</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Quizz</a>
-                            </nav>
-                        </div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Session 2
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Cours 1</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cours 2</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Cours 3</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Quizz</a>
-                            </nav>
-                        </div>
+                        {% for training in trainings %}
+                            <a class="nav-link collapsed" href="{{ path('trainings_show', {'slug': training.slug}) }}" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                {{ training.title }}
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    {% for section in training.sections %}
+                                        <a class="nav-link" href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
+                                    {% endfor %}
+                                </nav>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
-                </div>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <div class="sb-sidenav-footer">
+                        <div class="small">Connecté en tant que :</div>
+                        {{ app.user }}
+                    </div>
+                {% endif %}
             </nav>
         </div>
     </div>

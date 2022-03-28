@@ -18,6 +18,9 @@ class TrainingSection
     #[ORM\Column(type: 'string', length: 255)]
     private $title;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $slug;
+
     #[ORM\ManyToOne(targetEntity: Training::class, inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: false)]
     private $training;
@@ -105,6 +108,18 @@ class TrainingSection
     public function setQuizz(?Quizz $quizz): self
     {
         $this->quizz = $quizz;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

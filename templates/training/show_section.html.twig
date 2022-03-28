@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ training.title }} - {{ trainingSection.title }}{% endblock %}
+
+{% block body %}
+    <div class="card h-100">
+        <h1>{{ trainingSection.title }}</h1>
+
+        <ul>
+            {% for lesson in trainingSection.lessons %}
+                <li><a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug }) }}">{{ lesson.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        {% if trainingSection.quizz is defined and trainingSection.quizz %}
+            <p>
+                <a href="{{ path('quizzes_show', {'id': trainingSection.quizz.id}) }}">Passer le quizz</a>
+            </p>
+        {% endif %}
+
+        <p>
+            <a href="{{ path('trainings_show', {'slug': trainingSection.training.slug}) }}">Retourner à la formation</a>
+        </p>
+    </div>
+{% endblock %}

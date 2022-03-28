@@ -1,5 +1,28 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}{{ training.title }}{% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+    <div class="card h-100">
+        {% if training.image is defined and training.image %}
+            <img class="card-img-top" src="{{ asset('/uploads/' ~ training.image.name) }}" />
+        {% else %}
+            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" />
+        {% endif %}
+        <div class="card-body p-4">
+            <div class="text-center">
+                <h5 class="fw-bolder">{{ training.title }}</h5>
+                <span class="text-center">{{ training.description }}</span>
+            </div>
+        </div>
+        <ul>
+            {% for section in training.sections %}
+                <li><a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <p>
+            <a href="{{ path('trainings') }}">Retourner à la liste des formations</a>
+        </p>
+    </div>
+{% endblock %}

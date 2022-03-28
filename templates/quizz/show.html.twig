@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quizz - {{ quizz.trainingSection.title }}{% endblock %}
+
+{% block body %}
+    <h1>Quizz - {{ quizz.trainingSection.title }}</h1>
+    {% for question in quizz.questions %}
+        <p>{{ question.title }}</p>
+        <ul>
+            {% for answer in question.answers %}
+                <li>{{ answer.text }}</li>
+            {% endfor %}
+        </ul>
+        <p>{{ question.explanation }}</p>
+    {% endfor %}
+
+    <p>
+        <a href="{{ path('trainings_show_section', {'slug': quizz.trainingSection.training.slug, 'sectionSlug': quizz.trainingSection.slug}) }}">
+            Retourner à la section "{{ quizz.trainingSection.title }}"
+        </a>
+    </p>
+{% endblock %}

@@ -104,12 +104,14 @@ class AppFixtures extends Fixture
 
         $training = new Training();
         $training->setTitle('Parcours utilisateurs');
+        $training->setSlug('parcours-utilisateurs');
         $training->setDescription('Des parcours utilisateurs plus simples, sont des parcours qui consomment moins de ressources énergétiques');
         $training->setImage($image);
         $manager->persist($training);
 
         $training2 = new Training();
         $training2->setTitle('Le Green IT');
+        $training2->setSlug('le-green-it');
         $training2->setDescription('Découvrez tout sur le Green IT : l’informatique verte et durable');
         $training2->setImage($image2);
         $manager->persist($training2);
@@ -124,30 +126,35 @@ class AppFixtures extends Fixture
 
         $trainingSection = new TrainingSection();
         $trainingSection->setTitle('Green IT : définition');
+        $trainingSection->setSlug('green-it-definition');
         $trainingSection->setTraining($training2);
         $manager->persist($trainingSection);
         $training2->addSection($trainingSection);
 
         $trainingSection2 = new TrainingSection();
         $trainingSection2->setTitle('Les dimensions sociales et sociétales du Green IT');
+        $trainingSection2->setSlug('les-dimensions-sociales-et-societales-du-green-it');
         $trainingSection2->setTraining($training2);
         $manager->persist($trainingSection2);
         $training2->addSection($trainingSection2);
 
         $trainingSection3 = new TrainingSection();
         $trainingSection3->setTitle('Qu\'est-ce qu\'un parcours utilisateur UX ?');
+        $trainingSection3->setSlug('quest-ce-quun-parcours-utilisateur-ux');
         $trainingSection3->setTraining($training);
         $manager->persist($trainingSection3);
         $training->addSection($trainingSection3);
 
         $trainingSection4 = new TrainingSection();
         $trainingSection4->setTitle('Pourquoi analyser les problèmes d\'un parcours d\'utilisateur aide à améliorer l’UX ?');
+        $trainingSection4->setSlug('pourquoi-analyser-problemes-parcours-utilisateur-aide-amelioration-ux');
         $trainingSection4->setTraining($training);
         $manager->persist($trainingSection4);
         $training->addSection($trainingSection4);
 
         $trainingSection5 = new TrainingSection();
         $trainingSection5->setTitle('Le processus en 8 étapes pour créer une expérience utilisateur (UX) performante !');
+        $trainingSection5->setSlug('le-processus-8-etapes-pour-creer-une-experience-ux-performante');
         $trainingSection5->setTraining($training);
         $manager->persist($trainingSection5);
         $training->addSection($trainingSection5);
