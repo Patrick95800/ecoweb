@@ -1,0 +1,41 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Liste des demandes pour devenir instructeur{% endblock %}
+
+{% block body %}
+    <h1>Liste des demandes pour devenir instructeur</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Adresse email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for teacher_request in teacher_requests %}
+            <tr>
+                <td>{{ teacher_request.firstname }}</td>
+                <td>{{ teacher_request.lastname }}</td>
+                <td>{{ teacher_request.email }}</td>
+                <td>
+                    <a href="{{ path('backend_teacher_requests_show', {'id': teacher_request.id}) }}">Afficher</a>
+                    <a href="{{ path('backend_teacher_requests_edit', {'id': teacher_request.id}) }}">Editer</a>
+                    <form method="post" action="{{ path('backend_teacher_requests_validate', {'id': teacher_request.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir valider cette demande ?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ teacher_request.id) }}">
+                        <button class="btn">Valider</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucune demande trouvée</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('backend_teacher_requests_new') }}">Créer une nouvelle demande</a>
+{% endblock %}

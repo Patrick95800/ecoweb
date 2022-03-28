@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+
+	{% if app.request.attributes.get('_route') == 'backend_teacher_requests_edit' %}
+        {% if teacher_request.photo is defined and teacher_request.photo %}
+            <h2>Photo</h2>
+            <div>
+                <img src="{{ asset('/uploads/' ~ teacher_request.photo.name) }}" alt="" width="150">
+                <a href="{{ path('backend_teacher_requests_delete_image', { id: teacher_request.id, fileId: teacher_request.photo.id }) }}" data-delete data-token="{{ csrf_token('delete' ~ teacher_request.photo.id )}}">Supprimer</a>
+            </div>
+        {% endif %}
+    {% endif %}
+
+    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+{{ form_end(form) }}

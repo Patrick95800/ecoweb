@@ -25,7 +25,7 @@ class Question
     #[ORM\JoinColumn(nullable: false)]
     private $quizz;
 
-    #[ORM\Column(type: 'text')]
+    #[ORM\Column(type: 'text', nullable: true)]
     private $explanation;
 
     public function __toString(): string

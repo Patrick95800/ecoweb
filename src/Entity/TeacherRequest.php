@@ -90,12 +90,12 @@ class TeacherRequest implements PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPhoto(): File
+    public function getPhoto(): ?File
     {
         return $this->photo;
     }
 
-    public function setPhoto(File $photo): self
+    public function setPhoto(?File $photo): self
     {
         $this->photo = $photo;
 
