@@ -28,6 +28,7 @@ security:
     access_control:
         - { path: ^/admin/utilisateurs, roles: ROLE_ADMIN }
         - { path: ^/admin/demandes-pour-devenir-instructeur, roles: ROLE_ADMIN }
+        - { path: ^/admin/formations, roles: ROLE_TEACHER }
         - { path: ^/admin/quizz, roles: ROLE_TEACHER }
         - { path: ^/, roles: PUBLIC_ACCESS }
 

@@ -19,11 +19,15 @@ class TeacherRequestType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
-                'required' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir le prénom'])
+                ]
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
-                'required' => false,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir le nom'])
+                ]
             ])
             ->add('email', TextType::class, [
                 'label' => 'Adresse email',

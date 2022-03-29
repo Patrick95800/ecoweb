@@ -2,33 +2,34 @@
 
 namespace App\Form\Backend;
 
-use App\Entity\Question;
+use App\Entity\TrainingSection;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class QuestionType extends AbstractType
+class TrainingSectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Intitulé',
+                'label' => 'Titre',
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez saisir l\'intitulé de la question'])
+                    new NotBlank(['message' => 'Veuillez saisir le titre'])
                 ]
             ])
-            ->add('explanation', TextareaType::class, [
-                'label' => 'Explication',
-                'required' => false
+            ->add('slug', TextType::class, [
+                'label' => 'URL raccourcie',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir l\'URL raccourcie'])
+                ]
             ])
-            ->add('answers', CollectionType::class, [
-                'label' => 'Réponses',
-                'entry_type' => AnswerType::class,
+            ->add('lessons', CollectionType::class, [
+                'label' => 'Leçons',
+                'entry_type' => TrainingLessonType::class,
                 'allow_add' => true,
                 'by_reference' => false,
             ])
@@ -38,7 +39,7 @@ class QuestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Question::class,
+            'data_class' => TrainingSection::class,
         ]);
     }
 }

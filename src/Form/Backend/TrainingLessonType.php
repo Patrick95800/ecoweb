@@ -2,35 +2,37 @@
 
 namespace App\Form\Backend;
 
-use App\Entity\Question;
+use App\Entity\TrainingLesson;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class QuestionType extends AbstractType
+class TrainingLessonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Intitulé',
+                'label' => 'Titre',
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez saisir l\'intitulé de la question'])
+                    new NotBlank(['message' => 'Veuillez saisir le titre'])
                 ]
             ])
-            ->add('explanation', TextareaType::class, [
-                'label' => 'Explication',
+            ->add('video', FileType::class,[
+                'label' => 'Vidéo',
+                'multiple' => false,
+                'mapped' => false,
                 'required' => false
             ])
-            ->add('answers', CollectionType::class, [
-                'label' => 'Réponses',
-                'entry_type' => AnswerType::class,
-                'allow_add' => true,
-                'by_reference' => false,
+            ->add('explanation', TextareaType::class, [
+                'label' => 'Description',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir la description'])
+                ]
             ])
         ;
     }
@@ -38,7 +40,7 @@ class QuestionType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Question::class,
+            'data_class' => TrainingLesson::class,
         ]);
     }
 }

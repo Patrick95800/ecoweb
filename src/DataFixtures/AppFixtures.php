@@ -10,6 +10,7 @@ use App\Entity\Question;
 use App\Entity\Quizz;
 use App\Entity\TeacherRequest;
 use App\Entity\Training;
+use App\Entity\TrainingLesson;
 use App\Entity\TrainingSection;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -29,6 +30,7 @@ class AppFixtures extends Fixture
         $this->addTeacherRequests($manager);
         $this->addTrainings($manager);
         $this->addTrainingSections($manager);
+        $this->addTrainingLessons($manager);
         $this->addQuizzes($manager);
 
         $manager->flush();
@@ -232,10 +234,10 @@ class AppFixtures extends Fixture
 
     public function addTrainingLessons(ObjectManager $manager): void
     {
-        $video1 = new File();
-        $video1->setName('pollution_net_datacenters.mp4');
-        $video1->setExtension('mp4');
-        $manager->persist($video1);
+        $video = new File();
+        $video->setName('pollution_net_datacenters.mp4');
+        $video->setExtension('mp4');
+        $manager->persist($video);
 
         $video2 = new File();
         $video2->setName('pollution_net_data_web.mp4');
@@ -247,81 +249,61 @@ class AppFixtures extends Fixture
         $video3->setExtension('mp4');
         $manager->persist($video3);
 
-        $trainingSection9 = $manager->getRepository(TrainingSection::class)->findOneByTitle('L’impact environnemental des data centers');
-        $trainingSection10 = $manager->getRepository(TrainingSection::class)->findOneByTitle('Les données sur internet');
-        $trainingSection11 = $manager->getRepository(TrainingSection::class)->findOneByTitle('Energie renouvelable');
+        $trainingSection = $manager->getRepository(TrainingSection::class)->findOneByTitle('L’impact environnemental des data centers');
+        $trainingSection2 = $manager->getRepository(TrainingSection::class)->findOneByTitle('Les données sur internet');
+        $trainingSection3 = $manager->getRepository(TrainingSection::class)->findOneByTitle('Energie renouvelable');
 
         $trainingLesson = new TrainingLesson();
         $trainingLesson->setTitle('Qu\'est-ce q\'un data center ?');
-        $trainingLesson->setExplanation('Un centre de données, ou centre informatique est un lieu où sont regroupés 
-                                        les équipements constituants d\'un système d\'information. Ce regroupement permet 
-                                        de faciliter la sécurisation, la gestion et la maintenance des équipements et des données stockées.');
-        $trainingLesson->setVideo($video1);
-        $trainingLesson->setTrainingSection($trainingSection9);
+        $trainingLesson->setExplanation('Un centre de données, ou centre informatique est un lieu où sont regroupés les équipements constituants d\'un système d\'information. Ce regroupement permet de faciliter la sécurisation, la gestion et la maintenance des équipements et des données stockées.');
+        $trainingLesson->setVideo($video);
+        $trainingLesson->setTrainingSection($trainingSection);
         $manager->persist($trainingLesson);
-        $trainingSection9->addLesson($trainingLesson);
+        $trainingSection->addLesson($trainingLesson);
 
         $trainingLesson2 = new TrainingLesson();
         $trainingLesson2->setTitle('Quel est le rôle d\'un datacenter ?');
-        $trainingLesson2->setExplanation('Les centres de données servent à héberger les milliards de milliards de gigaoctets présents sur internet,
-                                         mais aussi les données que toute personne ou compagnie génèrent et utilisent');
-        $trainingLesson2->setVideo($video1);
-        $trainingLesson2->setTrainingSection($trainingSection9);
+        $trainingLesson2->setExplanation('Les centres de données servent à héberger les milliards de milliards de gigaoctets présents sur internet, mais aussi les données que toute personne ou compagnie génèrent et utilisent');
+        $trainingLesson2->setVideo($video2);
+        $trainingLesson2->setTrainingSection($trainingSection);
         $manager->persist($trainingLesson2);
-        $trainingSection9->addLesson($trainingLesson2);
+        $trainingSection->addLesson($trainingLesson2);
 
         $trainingLesson3 = new TrainingLesson();
         $trainingLesson3->setTitle('Qu\'est-ce qui consomme le plus dans un datacenter ?');
-        $trainingLesson3->setExplanation('La climatisation et les systèmes de refroidissement représentent de 40 à 50 % 
-                                            de la consommation énergétique des data centers (Gimelec).');
-        $trainingLesson3->setVideo($video1);
-        $trainingLesson3->setTrainingSection($trainingSection9);
+        $trainingLesson3->setExplanation('La climatisation et les systèmes de refroidissement représentent de 40 à 50 % de la consommation énergétique des data centers (Gimelec).');
+        $trainingLesson3->setVideo($video3);
+        $trainingLesson3->setTrainingSection($trainingSection);
         $manager->persist($trainingLesson3);
-        $trainingSection9->addLesson($trainingLesson3);
+        $trainingSection->addLesson($trainingLesson3);
 
         $trainingLesson4 = new TrainingLesson();
         $trainingLesson4->setTitle('Les emails');
-        $trainingLesson4->setExplanation('Un mail représente 4 g d\'équivalent CO2 (émissions liées au fonctionnement de
-                                            l\'ordinateur et des serveurs, ainsi qu\'à une partie de leur fabrication). 
-                                            65 mails émettent ainsi autant qu\'un kilomètre en voiture. 
-                                            Un mail avec une pièce jointe volumineuse peut atteindre 50 g. 
-                                            Un spam non lu coûte à la planète 0,3 g.');
-        $trainingLesson4->setVideo($video2);
-        $trainingLesson4->setTrainingSection($trainingSection10);
+        $trainingLesson4->setExplanation('Un mail représente 4 g d\'équivalent CO2 (émissions liées au fonctionnement de l\'ordinateur et des serveurs, ainsi qu\'à une partie de leur fabrication). 65 mails émettent ainsi autant qu\'un kilomètre en voiture. Un mail avec une pièce jointe volumineuse peut atteindre 50 g. Un spam non lu coûte à la planète 0,3 g.');
+        $trainingLesson4->setTrainingSection($trainingSection2);
         $manager->persist($trainingLesson4);
-        $trainingSection10->addLesson($trainingLesson4);
+        $trainingSection2->addLesson($trainingLesson4);
 
         $trainingLesson5 = new TrainingLesson();
         $trainingLesson5->setTitle('Recherche Google');
-        $trainingLesson5->setExplanation('Une recherche Google = 5 à 7 grammes de Co2. Il y a 180 milliards de 
-                                            recherches effectuées par heures sur Google, cela équivaut à 16 kilos 
-                                            de Co2 émis chaque seconde.');
-        $trainingLesson5->setVideo($video2);
-        $trainingLesson5->setTrainingSection($trainingSection10);
+        $trainingLesson5->setExplanation('Une recherche Google = 5 à 7 grammes de Co2. Il y a 180 milliards de recherches effectuées par heures sur Google, cela équivaut à 16 kilos de Co2 émis chaque seconde.');
+        $trainingLesson5->setTrainingSection($trainingSection2);
         $manager->persist($trainingLesson5);
-        $trainingSection10->addLesson($trainingLesson5);
+        $trainingSection2->addLesson($trainingLesson5);
 
         $trainingLesson6 = new TrainingLesson();
         $trainingLesson6->setTitle('Le Cloud');
-        $trainingLesson6->setExplanation('Le développement exponentiel du cloud computing génère un impact énorme sur 
-                                la consommation mondiale d\'électricité et génère lui aussi du dioxyde de carbone : ce secteur pourrait, 
-                                d\'ici 2025, consommer 20% de l\'électricité mondiale et émettre 5% de CO2 selon une récente étude suédoise.');
-        $trainingLesson6->setVideo($video2);
-        $trainingLesson6->setTrainingSection($trainingSection10);
+        $trainingLesson6->setExplanation('Le développement exponentiel du cloud computing génère un impact énorme sur la consommation mondiale d\'électricité et génère lui aussi du dioxyde de carbone : ce secteur pourrait, d\'ici 2025, consommer 20% de l\'électricité mondiale et émettre 5% de CO2 selon une récente étude suédoise.');
+        $trainingLesson6->setTrainingSection($trainingSection2);
         $manager->persist($trainingLesson6);
-        $trainingSection10->addLesson($trainingLesson6);
+        $trainingSection2->addLesson($trainingLesson6);
 
         $trainingLesson7 = new TrainingLesson();
         $trainingLesson7->setTitle('Les promesses des GAFA');
-        $trainingLesson7->setExplanation('Heureusement, les GAFA n\’ont pas attendu les dernières mises en garde du GIEC
-                                          pour se mettre au vert. Alors que les experts climat de l’ONU en ont remis une 
-                                          couche ce lundi dans un rapport de 400 pages sur l\'urgence de l\'action pour 
-                                          lutter contre le réchauffement climatique, les géants de la tech ont déjà pris 
-                                          le virage écologique depuis plusieurs années');
-        $trainingLesson7->setVideo($video3);
-        $trainingLesson->setTrainingSection($trainingSection11);
+        $trainingLesson7->setExplanation('Heureusement, les GAFA n\’ont pas attendu les dernières mises en garde du GIEC pour se mettre au vert. Alors que les experts climat de l’ONU en ont remis une couche ce lundi dans un rapport de 400 pages sur l\'urgence de l\'action pour lutter contre le réchauffement climatique, les géants de la tech ont déjà pris le virage écologique depuis plusieurs années');
+        $trainingLesson->setTrainingSection($trainingSection3);
         $manager->persist($trainingLesson7);
-        $trainingSection11->addLesson($trainingLesson7);
+        $trainingSection3->addLesson($trainingLesson7);
 
         $manager->flush();
     }

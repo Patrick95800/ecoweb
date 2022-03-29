@@ -1,0 +1,67 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Formation {{ training.title }}{% endblock %}
+
+{% block body %}
+    <h1>Formation {{ training.title }}</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Titre</th>
+                <td>{{ training.title }}</td>
+            </tr>
+            <tr>
+                <th>URL raccourcie</th>
+                <td>{{ training.slug }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ training.description }}</td>
+            </tr>
+            <tr>
+                <th>Sections</th>
+                <td>
+                    {% for section in training.sections %}
+                        <p>
+                            Intitulé : {{ section.title }}
+                        </p>
+                        <ul>
+                            {% for lesson in section.lessons %}
+                                <li>
+                                    <p>{{ lesson.title }}</p>
+                                    <p>{{ lesson.explanation }}</p>
+
+                                    {% if lesson.video is defined and lesson.video %}
+                                        <p><a href="{{ asset('uploads/' ~ lesson.video.name) }}">{{ lesson.video.name }}</a></p>
+                                    {% endif %}
+
+                                    {% if lesson.files|length > 0 %}
+                                        <p>
+                                            Ressources :
+                                        </p>
+                                        <ul>
+                                            {% for file in lesson.files %}
+                                                <li><a href="{{ asset('uploads/' ~ file.name) }}">{{ file.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <th>Créée le </th>
+                <td>{{ training.createdAt ? training.createdAt|date('d/m/Y') : 'Non définie' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('backend_trainings') }}">Retour à la liste</a>
+
+    <a href="{{ path('backend_trainings_edit', {'id': training.id}) }}">Editer</a>
+
+    {{ include('backend/training/_delete_form.html.twig') }}
+{% endblock %}

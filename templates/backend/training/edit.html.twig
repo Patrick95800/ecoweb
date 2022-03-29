@@ -1,0 +1,13 @@
+{% extends 'backend/base.html.twig' %}
+
+{% block title %}Edition de la formation {{ training.title }}{% endblock %}
+
+{% block body %}
+    <h1>Edition de la formation {{ training.title }}</h1>
+
+    {{ include('backend/training/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <a href="{{ path('backend_trainings') }}">Retour à la liste</a>
+
+    {{ include('backend/training/_delete_form.html.twig') }}
+{% endblock %}

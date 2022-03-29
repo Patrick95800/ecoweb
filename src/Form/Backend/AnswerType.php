@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AnswerType extends AbstractType
 {
@@ -16,6 +17,9 @@ class AnswerType extends AbstractType
         $builder
             ->add('text', TextType::class, [
                 'label' => 'Texte de la réponse',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir le texte de la réponse'])
+                ]
             ])
             ->add('isAnswer', ChoiceType::class, [
                 'label' => 'Est la bonne réponse ?',

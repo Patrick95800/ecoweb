@@ -70,12 +70,12 @@ class TrainingLesson
         return $this;
     }
 
-    public function getVideo(): ?string
+    public function getVideo(): ?File
     {
         return $this->video;
     }
 
-    public function setVideo(string $video): self
+    public function setVideo(?File $video): self
     {
         $this->video = $video;
 
