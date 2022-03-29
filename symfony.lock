@@ -248,7 +248,11 @@
             "ref": "bbfc7e27257d3a3f12a6fb0a42540a42d9623a37"
         },
         "files": [
+<<<<<<< Updated upstream
             "config/packages/mailer.yaml"
+=======
+            "./config/packages/mailer.yaml"
+>>>>>>> Stashed changes
         ]
     },
     "symfony/maker-bundle": {
