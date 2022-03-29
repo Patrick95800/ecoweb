@@ -19,6 +19,14 @@ class TrainingController extends AbstractController
         ]);
     }
 
+    #[Route('/test', name: 'trainings-test')]
+    public function index2(TrainingRepository $trainingRepository): Response
+    {
+        return $this->render('training/index2.html.twig', [
+            'trainings' => $trainingRepository->findAll()
+        ]);
+    }
+
     #[Route('/{slug}', name: 'trainings_show')]
     public function show(TrainingRepository $trainingRepository, string $slug): Response
     {

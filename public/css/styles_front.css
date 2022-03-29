@@ -13,6 +13,8 @@ section.display-formation{
 
 footer{
     background: #144778;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -41,7 +43,7 @@ footer{
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_content:before {
     display: none;
 }
-}
+
 .sb-nav-fixed .sb-topnav {
     z-index: 1039;
 }

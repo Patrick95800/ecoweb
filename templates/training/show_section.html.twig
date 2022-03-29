@@ -3,7 +3,52 @@
 {% block title %}{{ training.title }} - {{ trainingSection.title }}{% endblock %}
 
 {% block body %}
-    <div class="card h-100">
+    <body class="sb-nav-fixed">
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">Formation</div>
+                    <a class="nav-link" href="{{ path('trainings_show', {'slug': training.slug}) }}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        {{ training.title }}
+                    </a>
+                    <div class="sb-sidenav-menu-heading">Sections</div>
+                    {% for section in training.sections %}
+                        <a class="nav-link collapsed" href="{{ path('trainings_show', {'slug': training.slug}) }}" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                            {{ section.title }}
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    {% for lesson in trainingSection.lessons %}
+                                        <li><a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug }) }}">{{ lesson.title }}</a></li>
+                                    {% endfor %}
+                                </nav>
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                <div class="sb-sidenav-footer">
+                    <div class="small">Connecté en tant que :</div>
+                    {{ app.user }}
+                </div>
+            {% endif %}
+        </nav>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="card h-100">
         <h1>{{ trainingSection.title }}</h1>
 
         <ul>

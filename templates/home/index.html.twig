@@ -21,7 +21,7 @@
                     <div class="col mb-5">
                         <div class="card h-100">
                             {% if training.image is defined and training.image %}
-                                <img class="card-img-top" src="{{ asset('/uploads/' ~ training.image.name) }}" />
+                                <img class="card-img-top" height="auto" src="{{ asset('/uploads/' ~ training.image.name) }}" />
                             {% else %}
                                 <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" />
                             {% endif %}
