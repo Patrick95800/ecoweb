@@ -6,10 +6,7 @@
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /public/uploads/*
-!/public/uploads/photo_thomas_carpentier.jpg
-!/public/uploads/green_it.jpg
-!/public/uploads/parcours_utilisateurs.jpg
-!/public/uploads/photo_thomas_carpentier.jpg
+!/public/uploads/fixtures/
 /var/
 /vendor/
 /.idea

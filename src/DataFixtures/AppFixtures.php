@@ -93,22 +93,22 @@ class AppFixtures extends Fixture
     public function addTrainings(ObjectManager $manager): void
     {
         $image = new File();
-        $image->setName('parcours_utilisateurs.jpg');
+        $image->setName('fixtures/parcours_utilisateurs.jpg');
         $image->setExtension('jpg');
         $manager->persist($image);
 
         $image2 = new File();
-        $image2->setName('green_it.jpg');
+        $image2->setName('fixtures/green_it.jpg');
         $image2->setExtension('jpg');
         $manager->persist($image2);
 
         $image3 = new File();
-        $image3->setName('greenmetrics.jpg');
+        $image3->setName('fixtures/greenmetrics.jpg');
         $image3->setExtension('jpg');
         $manager->persist($image3);
 
         $image4 = new File();
-        $image4->setName('pollution_net.jpg');
+        $image4->setName('fixtures/pollution_net.jpg');
         $image4->setExtension('jpg');
         $manager->persist($image4);
 
