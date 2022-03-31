@@ -1,5 +1,138 @@
 {{ form_start(form) }}
+    {% do form.sections.setRendered %}
     {{ form_widget(form) }}
+
+    {% set lessonPrototype = '<li>
+        <label class="required">Réponse</label>
+        <div id="training_sections__section_number__lessons__lesson_number_" class="lesson">
+            <div>
+                <label for="training_sections__section_number__lessons__lesson_number__title" class="form-label required">Titre</label>
+                <input type="text" id="training_sections__section_number__lessons__lesson_number__title" name="training[sections][_section_number_][lessons][_lesson_number_][title]" required="required" class="form-control" /> 
+            </div>
+            <div>
+                <label for="training_sections__section_number__lessons__lesson_number__video" class="form-label required">Vidéo</label>
+                <textarea id="training_sections__section_number__lessons__lesson_number__video" name="training[sections][_section_number_][lessons][_lesson_number_][video]" required="required" class="form-control"></textarea>
+            </div>
+            <div>
+                <label for="training_sections__section_number__lessons__lesson_number__explanation" class="form-label required">Explication</label>
+                <textarea id="training_sections__section_number__lessons__lesson_number__explanation" name="training[sections][_section_number_][lessons][_lesson_number_][explanation]" required="required" class="form-control"></textarea>
+            </div>
+        </div>
+    </li>' %}
+
+    {% set sectionPrototype = '<div id="training_sections__section_number_">
+        <div>
+            <label for="training_sections__section_number__title" class="form-label required">Titre</label>
+            <input type="text" id="training_sections__section_number__title" name="training[sections][_section_number_][title]" required="required" class="form-control" />
+        </div>
+        <div>
+            <label for="training_sections__section_number__slug" class="form-label required">URL raccourcie</label>
+            <input type="text" id="training_sections__section_number__slug" name="training[sections][_section_number_][slug]" required="required" class="form-control" />
+        </div>
+        <div>
+            <label class="required">Leçons</label>
+            <ul id="training_sections__section_number__lessons" data-prototype="' ~ lessonPrototype|e('html_attr') ~ '"></ul>
+            <button type="button" class="add_lesson_link" data-section-number="_section_number_" data-collection-holder-class="training_sections__section_number__lessons">Ajouter une leçon</button>
+        </div>
+        <button type="button" class="delete_section_link" data-collection-holder-class="sections">Supprimer la section</button>
+    </div>' %}
+
+    <h3>Sections</h3>
+
+    <ul id="sections" data-index="{{ training.sections|length }}" data-prototype="{{ sectionPrototype|e('html_attr') }}">
+        {% for key, section in training.sections %}
+            <li>
+                <div id="training_sections_{{ key }}">
+                    <div>
+                        <label for="training_sections_{{ key }}_title" class="required">Titre</label>
+                        <input type="text" id="training_sections_{{ key }}_title" name="training[sections][{{ key }}][title]" required="required" value="{{ section.title }}">
+                    </div>
+                    <div>
+                        <label for="training_sections_{{ key }}_slug" class="required">URL raccourcie</label>
+                        <input type="text" id="training_sections_{{ key }}_slug" name="training[sections][{{ key }}][slug]" required="required" value="{{ section.slug }}">
+                    </div>
+                    <div>
+                        <label class="required">Leçons</label>
+                        <ul id="training_sections_{{ key }}_lessons" data-prototype="{{ lessonPrototype|e('html_attr') }}">
+                            {% for keyLesson, lesson in section.lessons %}
+                                <li>
+                                    <label class="required">Leçon</label>
+                                    <div id="training_sections_{{ key }}_lessons_{{ keyLesson }}" class="lesson">
+                                        <div>
+                                            <label for="training_sections_{{ key }}_lessons_{{ keyLesson }}_text" class="required">Titre</label>
+                                            <input type="text" id="training_sections_{{ key }}_lessons_{{ keyLesson }}_title" name="training[sections][{{ key }}][lessons][{{ keyLesson }}][title]" value="{{ lesson.title }}" required="required" />
+                                        </div>
+                                        <div>
+                                            <label for="training_sections_{{ key }}_lessons_{{ keyLesson }}_video" class="required">Vidéo</label>
+                                            <textarea id="training_sections_{{ key }}_lessons_{{ keyLesson }}_video" name="training[sections][{{ key }}][lessons][{{ keyLesson }}][video]" required="required" class="form-control">{{ lesson.video }}</textarea>
+                                        </div>
+                                        <div>
+                                            <label for="training_sections_{{ key }}_lessons_{{ keyLesson }}_explanation" class="required">Explication</label>
+                                            <textarea id="training_sections_{{ key }}_lessons_{{ keyLesson }}_explanation" name="training[sections][{{ key }}][lessons][{{ keyLesson }}][explanation]" required="required" class="form-control">{{ lesson.explanation }}</textarea>
+                                        </div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <button type="button" class="add_lesson_link" data-section-number="{{ key }}" data-collection-holder-class="training_sections_{{ key }}_lessons">Ajouter une leçon</button>
+                    </div>
+                    <button type="button" class="delete_section_link" data-collection-holder-class="sections">Supprimer la section</button>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <button type="button" class="add_section_link" data-collection-holder-class="sections">Ajouter une section</button>
 
     <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}
+
+<script>
+    // Add sections
+    const addSectionToCollection = (e) => {
+        const collectionHolder = document.querySelector('#' + e.currentTarget.dataset.collectionHolderClass);
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder.dataset.prototype
+            .replace(/_section_number_/g, collectionHolder.dataset.index)
+            .replace(/_section_title_/g, '')
+            .replace(/_section_explanation_/g, '');
+
+        collectionHolder.appendChild(item);
+        collectionHolder.dataset.index++;
+
+        document.querySelectorAll('#sections li .delete_section_link').forEach(btn => {
+            btn.addEventListener("click", removeSectionFromCollection)
+        });
+        document.querySelectorAll('.add_lesson_link').forEach(btn => {
+            btn.addEventListener("click", addSectionLessonToCollection)
+        });
+    };
+    document.querySelectorAll('.add_section_link').forEach(btn => {
+        btn.addEventListener("click", addSectionToCollection)
+    });
+
+    // Add lesson to existing section
+    const addSectionLessonToCollection = (e) => {
+        const collectionHolder = document.querySelector('#' + e.currentTarget.dataset.collectionHolderClass);
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder.dataset.prototype
+            .replace(/_section_number_/g, e.currentTarget.dataset.sectionNumber)
+            .replace(/_lesson_number_/g, collectionHolder.querySelectorAll('div.lesson').length);
+
+        collectionHolder.appendChild(item);
+        collectionHolder.dataset.index++;
+    };
+    document.querySelectorAll('.add_lesson_link').forEach(btn => {
+        btn.addEventListener("click", addSectionLessonToCollection)
+    });
+
+    // Delete section
+    const removeSectionFromCollection = (e) => {
+        e.currentTarget.parentNode.parentNode.remove();
+    };
+    document.querySelectorAll('#sections li .delete_section_link').forEach(btn => {
+        btn.addEventListener("click", removeSectionFromCollection)
+    });
+</script>

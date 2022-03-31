@@ -22,10 +22,10 @@ class TrainingSection
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: Training::class, inversedBy: 'sections')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $training;
 
-    #[ORM\OneToMany(mappedBy: 'trainingSection', targetEntity: TrainingLesson::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trainingSection', targetEntity: TrainingLesson::class, orphanRemoval: true, cascade: ['persist'])]
     private $lessons;
 
     #[ORM\OneToOne(inversedBy: 'trainingSection', targetEntity: Quizz::class, cascade: ['persist', 'remove'])]

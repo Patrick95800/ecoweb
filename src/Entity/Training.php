@@ -30,7 +30,7 @@ class Training
     #[ORM\OneToOne(targetEntity: File::class, cascade: ['persist', 'remove'])]
     private $image;
 
-    #[ORM\OneToMany(mappedBy: 'training', targetEntity: TrainingSection::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'training', targetEntity: TrainingSection::class, orphanRemoval: true, cascade: ['persist'])]
     private $sections;
 
     #[Gedmo\Timestampable(on: 'create')]

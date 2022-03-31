@@ -28,7 +28,7 @@ class TrainingLesson
     private $files;
 
     #[ORM\ManyToOne(targetEntity: TrainingSection::class, inversedBy: 'lessons')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $trainingSection;
 
     public function __toString(): string

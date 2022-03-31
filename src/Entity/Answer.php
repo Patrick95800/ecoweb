@@ -20,7 +20,7 @@ class Answer
     private $isAnswer = false;
 
     #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answers')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $question;
 
     public function __toString(): string

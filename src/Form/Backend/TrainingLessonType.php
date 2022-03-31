@@ -29,9 +29,9 @@ class TrainingLessonType extends AbstractType
                 ]
             ])
             ->add('explanation', TextareaType::class, [
-                'label' => 'Description',
+                'label' => 'Explication',
                 'constraints' => [
-                    new NotBlank(['message' => 'Veuillez saisir la description'])
+                    new NotBlank(['message' => 'Veuillez saisir l\'explication'])
                 ]
             ])
         ;

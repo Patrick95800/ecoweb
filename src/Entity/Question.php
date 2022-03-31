@@ -22,7 +22,7 @@ class Question
     private $answers;
 
     #[ORM\ManyToOne(targetEntity: Quizz::class, inversedBy: 'questions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private $quizz;
 
     #[ORM\Column(type: 'text', nullable: true)]
