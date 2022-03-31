@@ -12,7 +12,12 @@
             {{ lesson.explanation }}
         </p>
 
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.hasLearnedLesson(lesson) %}
+            <p><strong>Vous avez déjà appris cette leçon.</strong></p>
+        {% endif %}
+
         <p>
+            <a href="{{ path('trainings_mark_lesson_as_done', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">Terminer la leçon</a>
             <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">Retourner à la section</a>
         </p>
     </div>

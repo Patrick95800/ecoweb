@@ -211,4 +211,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function hasLearnedLesson(TrainingLesson $lesson): bool
+    {
+        foreach ($this->learnedLessons as $learnedLesson) {
+            if ($learnedLesson->getId() === $lesson->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

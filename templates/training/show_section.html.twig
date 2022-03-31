@@ -45,9 +45,18 @@
     <div class="card h-100">
         <h1>{{ section.title }}</h1>
 
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            <p><strong>Vous avez fini {{ section.getPercentageOfAchievement(app.user) }} % de la section</strong></p>
+        {% endif %}
+
         <ul>
             {% for lesson in section.lessons %}
-                <li><a href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a></li>
+                <li>
+                    <a href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.hasLearnedLesson(lesson) %}
+                        <strong>Vous avez déjà appris cette leçon.</strong>
+                    {% endif %}
+                </li>
             {% endfor %}
         </ul>
 

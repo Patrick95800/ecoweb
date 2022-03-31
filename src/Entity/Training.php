@@ -157,4 +157,21 @@ class Training
 
         return $this;
     }
+
+    public function getPercentageOfAchievement(User $user): int
+    {
+        if ($this->sections->count() == 0) {
+            return 0;
+        }
+
+        $count = 0;
+
+        foreach ($this->sections as $section) {
+            if ($section->getPercentageOfAchievement($user) == 100) {
+                $count++;
+            }
+        }
+
+        return (int) ($count/$this->sections->count() * 100);
+    }
 }

@@ -3,18 +3,17 @@
 {% block title %}{{ training.title }}{% endblock %}
 
 {% block body %}
-    <body class="sb-nav-fixed">
-
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Formation</div>
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="{{ path('trainings') }}">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             {{ training.title }}
                         </a>
+
                         <div class="sb-sidenav-menu-heading">Sections</div>
                         {% for section in training.sections %}
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
@@ -24,7 +23,7 @@
                         </a>
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                {% for lesson in trainingSection.lessons %}
+                                {% for lesson in section.lessons %}
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
                                     {{ lesson.title }}
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -66,6 +65,11 @@
                         <div class="text-center">
                             <h5 class="fw-bolder">{{ training.title }}</h5>
                             <span class="text-center">{{ training.description }}</span>
+
+
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <p><strong>Vous avez fini {{ training.getPercentageOfAchievement(app.user) }} % de la formation</strong></p>
+                            {% endif %}
                         </div>
                     </div>
                     <ul>
@@ -100,14 +104,5 @@
     <script src="assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="js/datatables-simple-demo.js"></script>
-    </body>
-
-
-
-
-
-
-
-
 
 {% endblock %}

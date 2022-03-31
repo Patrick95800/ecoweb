@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\TrainingRepository;
 use App\Repository\TrainingSectionRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -94,5 +96,49 @@ class TrainingController extends AbstractController
             'section' => $trainingSection,
             'lesson' => $trainingLesson,
         ]);
+    }
+
+    #[Route('/{slug}/sections/{sectionSlug}/lecon/{lessonId}/confirmation', name: 'trainings_mark_lesson_as_done')]
+    public function markAsDone(TrainingRepository $trainingRepository, UserRepository $userRepository, string $slug, string $sectionSlug, int $lessonId): Response
+    {
+        if (null === $user = $this->getUser()) {
+            return $this->redirectToRoute('login');
+        }
+
+        if (null === $training = $trainingRepository->findOneBySlug($slug)) {
+            throw new NotFoundHttpException();
+        }
+
+        $trainingSection = null;
+        foreach ($training->getSections() as $section) {
+            if ($section->getSlug() === $sectionSlug) {
+                $trainingSection = $section;
+            }
+        }
+
+        if (null === $trainingSection) {
+            throw new NotFoundHttpException();
+        }
+
+        $trainingLesson = null;
+        foreach ($trainingSection->getLessons() as $lesson) {
+            if ($lesson->getId() === $lessonId) {
+                $trainingLesson = $lesson;
+            }
+        }
+
+        if (null === $trainingLesson) {
+            throw new NotFoundHttpException();
+        }
+
+        /** @var User $user */
+        if (!$user->hasLearnedLesson($lesson)) {
+            $user->addLearnedLesson($lesson);
+            $userRepository->add($user);
+
+            $this->addFlash('success', sprintf('Félicitations, vous venez de terminer la lecon "%s" !', $lesson->getTitle()));
+        }
+
+        return $this->redirectToRoute('trainings_show_section', ['slug' => $slug, 'sectionSlug' => $sectionSlug]);
     }
 }
