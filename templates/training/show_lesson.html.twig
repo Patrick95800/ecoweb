@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ section.title }} - {{ lesson.title }}{% endblock %}
+
+{% block body %}
+    <div class="card h-100">
+        <h1>{{ lesson.title }}</h1>
+
+        {{ lesson.video|raw }}
+
+        <p>
+            {{ lesson.explanation }}
+        </p>
+
+        <p>
+            <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">Retourner à la section</a>
+        </p>
+    </div>
+{% endblock %}

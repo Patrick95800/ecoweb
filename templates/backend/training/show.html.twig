@@ -29,12 +29,10 @@
                         <ul>
                             {% for lesson in section.lessons %}
                                 <li>
+                                    {{ lesson.video|raw }}
+
                                     <p>{{ lesson.title }}</p>
                                     <p>{{ lesson.explanation }}</p>
-
-                                    {% if lesson.video is defined and lesson.video %}
-                                        <p><a href="{{ asset('uploads/' ~ lesson.video.name) }}">{{ lesson.video.name }}</a></p>
-                                    {% endif %}
 
                                     {% if lesson.files|length > 0 %}
                                         <p>

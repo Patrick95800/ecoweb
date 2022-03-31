@@ -22,11 +22,11 @@ class TrainingLessonType extends AbstractType
                     new NotBlank(['message' => 'Veuillez saisir le titre'])
                 ]
             ])
-            ->add('video', FileType::class,[
+            ->add('video', TextareaType::class,[
                 'label' => 'Vidéo',
-                'multiple' => false,
-                'mapped' => false,
-                'required' => false
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir la description'])
+                ]
             ])
             ->add('explanation', TextareaType::class, [
                 'label' => 'Description',

@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ training.title }} - {{ trainingSection.title }}{% endblock %}
+{% block title %}{{ training.title }} - {{ section.title }}{% endblock %}
 
 {% block body %}
-    <body class="sb-nav-fixed">
+{#
 <div id="layoutSidenav">
     <div id="layoutSidenav_nav">
         <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -40,31 +40,25 @@
         </nav>
     </div>
 </div>
+#}
 
-
-
-
-
-
-
-
-<div class="card h-100">
-        <h1>{{ trainingSection.title }}</h1>
+    <div class="card h-100">
+        <h1>{{ section.title }}</h1>
 
         <ul>
-            {% for lesson in trainingSection.lessons %}
-                <li><a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug }) }}">{{ lesson.title }}</a></li>
+            {% for lesson in section.lessons %}
+                <li><a href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a></li>
             {% endfor %}
         </ul>
 
-        {% if trainingSection.quizz is defined and trainingSection.quizz %}
+        {% if section.quizz is defined and section.quizz %}
             <p>
-                <a href="{{ path('quizzes_show', {'id': trainingSection.quizz.id}) }}">Passer le quizz</a>
+                <a href="{{ path('quizzes_show', {'id': section.quizz.id}) }}">Passer le quizz</a>
             </p>
         {% endif %}
 
         <p>
-            <a href="{{ path('trainings_show', {'slug': trainingSection.training.slug}) }}">Retourner à la formation</a>
+            <a href="{{ path('trainings_show', {'slug': training.slug}) }}">Retourner à la formation</a>
         </p>
     </div>
 {% endblock %}

@@ -21,7 +21,7 @@ class TrainingLesson
     #[ORM\Column(type: 'text')]
     private $explanation;
 
-    #[ORM\OneToOne(targetEntity: File::class, cascade: ['persist', 'remove'])]
+    #[ORM\Column(type: 'text')]
     private $video;
 
     #[ORM\OneToMany(mappedBy: 'trainingLesson', targetEntity: File::class)]
@@ -70,12 +70,12 @@ class TrainingLesson
         return $this;
     }
 
-    public function getVideo(): ?File
+    public function getVideo(): string
     {
         return $this->video;
     }
 
-    public function setVideo(?File $video): self
+    public function setVideo(string $video): self
     {
         $this->video = $video;
 
