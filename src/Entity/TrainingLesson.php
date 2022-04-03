@@ -123,4 +123,9 @@ class TrainingLesson
 
         return $this;
     }
+
+    public function isDone(User $user): bool
+    {
+        return $user->hasLearnedLesson($this);
+    }
 }

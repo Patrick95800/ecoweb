@@ -53,7 +53,7 @@
             {% for lesson in section.lessons %}
                 <li>
                     <a href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a>
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.hasLearnedLesson(lesson) %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and lesson.isDone(app.user) %}
                         <strong>Vous avez déjà appris cette leçon.</strong>
                     {% endif %}
                 </li>

@@ -184,11 +184,11 @@ class TrainingController extends AbstractController
         }
 
         /** @var User $user */
-        if (!$user->hasLearnedLesson($lesson)) {
-            $user->addLearnedLesson($lesson);
+        if (!$user->hasLearnedLesson($trainingLesson)) {
+            $user->addLearnedLesson($trainingLesson);
             $userRepository->add($user);
 
-            $this->addFlash('success', sprintf('Félicitations, vous venez de terminer la lecon "%s" !', $lesson->getTitle()));
+            $this->addFlash('success', sprintf('Félicitations, vous venez de terminer la lecon "%s" !', $trainingLesson->getTitle()));
         }
 
         return $this->redirectToRoute('trainings_show_section', ['slug' => $slug, 'sectionSlug' => $sectionSlug]);

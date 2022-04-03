@@ -12,7 +12,7 @@
             {{ lesson.explanation }}
         </p>
 
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and app.user.hasLearnedLesson(lesson) %}
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and lesson.isDone(app.user) %}
             <p><strong>Vous avez déjà appris cette leçon.</strong></p>
         {% endif %}
 

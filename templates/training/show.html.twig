@@ -74,7 +74,12 @@
                     </div>
                     <ul>
                         {% for section in training.sections %}
-                            <li><a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a></li>
+                            <li>
+                                <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
+                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and section.isDone(app.user) %}
+                                    <strong>Vous avez fini d'apprendre cette section.</strong>
+                                {% endif %}
+                            </li>
                         {% endfor %}
                     </ul>
 
