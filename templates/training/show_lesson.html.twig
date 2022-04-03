@@ -12,6 +12,12 @@
             {{ lesson.explanation }}
         </p>
 
+        {% if lesson.files is defined and lesson.files|length > 0 %}
+            {% for file in lesson.files %}
+                <li><a href="{{ asset('/uploads/' ~ file.name) }}">{{ file.name }} (Fichier {{ file.extension|upper }})</a></li>
+            {% endfor %}
+        {% endif %}
+
         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and lesson.isDone(app.user) %}
             <p><strong>Vous avez déjà appris cette leçon.</strong></p>
         {% endif %}
