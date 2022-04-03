@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Catalogue des formations{% endblock %}
+{% block title %}Recherche des formations pour le terme "{{ search }}"{% endblock %}
 
 {% block body %}
     <section class="display-formation">
         <div class="container px-4 px-lg-5 mt-5">
-            <h1>Catalogue des formations</h1>
+            <h1>Recherche des formations pour le terme "{{ search }}"</h1>
 
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {{ form_start(form) }}
@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <p><strong>Aucune formation trouvée</strong></p>
+                    <p><strong>Aucune formation trouvée correspondant à votre recherche.</strong></p>
                 {% endfor %}
             </div>
         </div>

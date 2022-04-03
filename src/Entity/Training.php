@@ -174,4 +174,21 @@ class Training
 
         return (int) ($count/$this->sections->count() * 100);
     }
+
+    public function isDone(User $user): bool
+    {
+        if ($this->sections->count() == 0) {
+            return false;
+        }
+
+        $isDone = true;
+
+        foreach ($this->sections as $section) {
+            if (!$section->isDone($user)) {
+                $isDone = false;
+            }
+        }
+
+        return $isDone;
+    }
 }

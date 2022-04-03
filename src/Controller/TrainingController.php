@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\FilterTrainingType;
 use App\Repository\TrainingRepository;
 use App\Repository\TrainingSectionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,18 +17,68 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrainingController extends AbstractController
 {
     #[Route('', name: 'trainings')]
-    public function index(TrainingRepository $trainingRepository): Response
+    public function index(Request $request, TrainingRepository $trainingRepository): Response
     {
+        $user = $this->getUser();
+        $trainings = $trainingRepository->findAll();
+        $filteredTrainings = [];
+
+        $form = $this->createForm(FilterTrainingType::class, null, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $user instanceof User) {
+            $status = $form->get('status')->getData();
+
+            foreach ($trainings as $training) {
+                $isDone = $training->isDone($user);
+
+                if ('pending' === $status && !$isDone) {
+                    $filteredTrainings[] = $training;
+                } elseif ('done' === $status && $isDone) {
+                    $filteredTrainings[] = $training;
+                }
+            }
+        } else {
+            $filteredTrainings = $trainings;
+        }
+
         return $this->render('training/index.html.twig', [
-            'trainings' => $trainingRepository->findAll()
+            'form' => $form->createView(),
+            'trainings' => $filteredTrainings
         ]);
     }
 
-    #[Route('/test', name: 'trainings-test')]
-    public function index2(TrainingRepository $trainingRepository): Response
+    #[Route('/recherche', name: 'trainings_search')]
+    public function search(Request $request, TrainingRepository $trainingRepository): Response
     {
-        return $this->render('training/index2.html.twig', [
-            'trainings' => $trainingRepository->findAll()
+        $user = $this->getUser();
+        $search = $request->get('search', '');
+        $trainings = $trainingRepository->findBySearch($search);
+        $filteredTrainings = [];
+
+        $form = $this->createForm(FilterTrainingType::class, null, ['method' => 'GET']);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid() && $user instanceof User) {
+            $status = $form->get('status')->getData();
+
+            foreach ($trainings as $training) {
+                $isDone = $training->isDone($user);
+
+                if ('pending' === $status && !$isDone) {
+                    $filteredTrainings[] = $training;
+                } elseif ('done' === $status && $isDone) {
+                    $filteredTrainings[] = $training;
+                }
+            }
+        } else {
+            $filteredTrainings = $trainings;
+        }
+
+        return $this->render('training/search.html.twig', [
+            'form' => $form->createView(),
+            'trainings' => $filteredTrainings,
+            'search' => $search
         ]);
     }
 

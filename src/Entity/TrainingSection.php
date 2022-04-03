@@ -140,4 +140,21 @@ class TrainingSection
 
         return (int) ($count/$this->lessons->count() * 100);
     }
+
+    public function isDone(User $user): bool
+    {
+        if ($this->lessons->count() == 0) {
+            return false;
+        }
+
+        $isDone = true;
+
+        foreach ($this->lessons as $lesson) {
+            if (!$user->hasLearnedLesson($lesson)) {
+                $isDone = false;
+            }
+        }
+
+        return $isDone;
+    }
 }
