@@ -19,6 +19,9 @@
             <label for="inputPassword">Mot de passe</label>
             <input type="password" name="password" class="form-control" id="inputPassword" autocomplete="current-password" required>
         </div>
+
+        <p>Vous n'avez pas encore de compte ? <a href="{{ path('register') }}">Inscrivez-vous</a> dès maintenant.</p>
+
         <div class="form-check">
             <!--input type="checkbox" class="form-check-input" id="exampleCheck1"-->
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
