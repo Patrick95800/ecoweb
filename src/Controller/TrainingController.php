@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\FilterTrainingType;
 use App\Repository\TrainingRepository;
-use App\Repository\TrainingSectionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,8 +90,19 @@ class TrainingController extends AbstractController
     }
 
     #[Route('/{slug}/sections/{sectionSlug}', name: 'trainings_show_section')]
-    public function showSection(TrainingRepository $trainingRepository, string $slug, string $sectionSlug): Response
+    public function showSection(Request $request, TrainingRepository $trainingRepository, string $slug, string $sectionSlug): Response
     {
+        if (!$this->getUser() instanceof User) {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette formation');
+
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('trainings_show_section', [
+                'slug' => $slug,
+                'sectionSlug' => $sectionSlug
+            ]));
+
+            return $this->redirectToRoute('login');
+        }
+
         if (null === $training = $trainingRepository->findOneBySlug($slug)) {
             throw new NotFoundHttpException();
         }
@@ -115,8 +125,20 @@ class TrainingController extends AbstractController
     }
 
     #[Route('/{slug}/sections/{sectionSlug}/lecon/{lessonId}', name: 'trainings_show_lesson')]
-    public function showLesson(TrainingRepository $trainingRepository, string $slug, string $sectionSlug, int $lessonId): Response
+    public function showLesson(Request $request, TrainingRepository $trainingRepository, string $slug, string $sectionSlug, int $lessonId): Response
     {
+        if (!$this->getUser() instanceof User) {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette leçon');
+
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('trainings_show_lesson', [
+                'slug' => $slug,
+                'sectionSlug' => $sectionSlug,
+                'lessonId' => $lessonId
+            ]));
+
+            return $this->redirectToRoute('login');
+        }
+
         if (null === $training = $trainingRepository->findOneBySlug($slug)) {
             throw new NotFoundHttpException();
         }
@@ -151,8 +173,20 @@ class TrainingController extends AbstractController
     }
 
     #[Route('/{slug}/sections/{sectionSlug}/lecon/{lessonId}/confirmation', name: 'trainings_mark_lesson_as_done')]
-    public function markAsDone(TrainingRepository $trainingRepository, UserRepository $userRepository, string $slug, string $sectionSlug, int $lessonId): Response
+    public function markAsDone(Request $request, TrainingRepository $trainingRepository, UserRepository $userRepository, string $slug, string $sectionSlug, int $lessonId): Response
     {
+        if (!$this->getUser() instanceof User) {
+            $this->addFlash('error', 'Vous devez être connecté pour terminer cette leçon');
+
+            $request->getSession()->set('_security.main.target_path', $this->generateUrl('trainings_show_lesson', [
+                'slug' => $slug,
+                'sectionSlug' => $sectionSlug,
+                'lessonId' => $lessonId
+            ]));
+
+            return $this->redirectToRoute('login');
+        }
+
         if (null === $user = $this->getUser()) {
             return $this->redirectToRoute('login');
         }
