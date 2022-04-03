@@ -5,11 +5,11 @@
 {% block body %}
     <h1>Edition d'une demande</h1>
 
-    {{ include('backend/teacher_request/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    <p>{{ include('backend/teacher_request/_form.html.twig', {'button_label': 'Mettre à jour'}) }}</p>
 
-    <a href="{{ path('backend_teacher_requests') }}">Retour à la liste</a>
+    <p>{{ include('backend/teacher_request/_delete_form.html.twig') }}</p>
 
-    {{ include('backend/teacher_request/_delete_form.html.twig') }}
+    <p><a href="{{ path('backend_teacher_requests') }}" class="btn btn-secondary" role="button">Retour à la liste</a></p>
 {% endblock %}
 
 {% block javascripts %}

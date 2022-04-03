@@ -1,0 +1,41 @@
+div.masthead{
+    background: url('../uploads/fixtures/ecoit4.jpg') no-repeat center center;
+    background-size: cover;
+    position: relative;
+    padding-top: 8rem;
+    padding-bottom: 8rem;
+}
+
+section.display-formation{
+    padding-top: 20px;
+}
+
+div.custom-banner{
+    background: #C6462A;
+}
+
+footer{
+    margin-top: 30px;
+    background: #C6462A;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.btn{
+    background-color: #C6462A;
+    border-color: #C6462A;
+    color: white;
+    font-size: 1em;
+}
+
+.section-border{
+    background: #FFF4F4 ;
+    margin:10px;
+    border-radius: 10px;
+}
+
+.quizz-border{
+    background: #FFF4F4 ;
+    margin: 10px;
+    border-radius: 10px;
+}

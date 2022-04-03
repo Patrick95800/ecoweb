@@ -21,11 +21,11 @@
                 <td>{{ teacher_request.lastname }}</td>
                 <td>{{ teacher_request.email }}</td>
                 <td>
-                    <a href="{{ path('backend_teacher_requests_show', {'id': teacher_request.id}) }}">Afficher</a>
-                    <a href="{{ path('backend_teacher_requests_edit', {'id': teacher_request.id}) }}">Editer</a>
+                    <a href="{{ path('backend_teacher_requests_show', {'id': teacher_request.id}) }}" class="btn btn-secondary" role="button">Afficher</a>
+                    <a href="{{ path('backend_teacher_requests_edit', {'id': teacher_request.id}) }}" class="btn btn-secondary" role="button">Editer</a>
                     <form method="post" action="{{ path('backend_teacher_requests_validate', {'id': teacher_request.id}) }}" onsubmit="return confirm('Etes-vous sûr de vouloir valider cette demande ?');">
                         <input type="hidden" name="_token" value="{{ csrf_token('validate' ~ teacher_request.id) }}">
-                        <button class="btn">Valider</button>
+                        <button class="btn btn-secondary">Valider</button>
                     </form>
                 </td>
             </tr>
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('backend_teacher_requests_new') }}">Créer une nouvelle demande</a>
+    <a href="{{ path('backend_teacher_requests_new') }}" class="btn btn-secondary" role="button">Créer une nouvelle demande</a>
 {% endblock %}

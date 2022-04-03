@@ -21,8 +21,8 @@
                 <td>{{ training.slug }}</td>
                 <td>{{ training.createdAt ? training.createdAt|date('d/m/Y') : 'Non défini' }}</td>
                 <td>
-                    <a href="{{ path('backend_trainings_show', {'id': training.id}) }}">Afficher</a>
-                    <a href="{{ path('backend_trainings_edit', {'id': training.id}) }}">Editer</a>
+                    <a href="{{ path('backend_trainings_show', {'id': training.id}) }}" class="btn btn-primary" role="button">Afficher</a>
+                    <a href="{{ path('backend_trainings_edit', {'id': training.id}) }}" class="btn btn-primary" role="button">Editer</a>
                 </td>
             </tr>
         {% else %}
@@ -33,5 +33,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('backend_trainings_new') }}">Créer une nouvelle formation</a>
+    <a href="{{ path('backend_trainings_new') }}" class="btn btn-secondary" role="button">Créer une nouvelle formation</a>
 {% endblock %}

@@ -57,9 +57,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('backend_trainings') }}">Retour à la liste</a>
+    <p><a href="{{ path('backend_trainings_edit', {'id': training.id}) }}" class="btn btn-primary" role="button">Editer</a></p>
 
-    <a href="{{ path('backend_trainings_edit', {'id': training.id}) }}">Editer</a>
+    <p>{{ include('backend/training/_delete_form.html.twig') }}</p>
 
-    {{ include('backend/training/_delete_form.html.twig') }}
+    <p><a href="{{ path('backend_trainings') }} " class="btn btn-secondary" role="button">Retour à la liste</a></p>
 {% endblock %}

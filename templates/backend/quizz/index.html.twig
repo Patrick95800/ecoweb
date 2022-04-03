@@ -17,8 +17,8 @@
             <tr>
                 <td>{{ quizz.trainingSection }}</td>
                 <td>
-                    <a href="{{ path('backend_quizzes_show', {'id': quizz.id}) }}">Afficher</a>
-                    <a href="{{ path('backend_quizzes_edit', {'id': quizz.id}) }}">Editer</a>
+                    <a href="{{ path('backend_quizzes_show', {'id': quizz.id}) }}" class="btn btn-secondary" role="button">Afficher</a>
+                    <a href="{{ path('backend_quizzes_edit', {'id': quizz.id}) }}" class="btn btn-secondary" role="button">Editer</a>
                 </td>
             </tr>
         {% else %}
@@ -29,5 +29,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('backend_quizzes_new') }}">Créer un nouveau quizz</a>
+    <a href="{{ path('backend_quizzes_new') }}" class="btn btn-secondary" role="button">Créer un nouveau quizz</a>
 {% endblock %}

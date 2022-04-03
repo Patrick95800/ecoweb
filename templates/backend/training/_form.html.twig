@@ -3,7 +3,7 @@
     {{ form_widget(form) }}
 
     {% set lessonPrototype = '<li>
-        <label class="required">Réponse</label>
+        <label class="required">Informations concernant la leçon</label>
         <div id="training_sections__section_number__lessons__lesson_number_" class="lesson">
             <div>
                 <label for="training_sections__section_number__lessons__lesson_number__title" class="form-label required">Titre</label>
@@ -14,13 +14,13 @@
                 <textarea id="training_sections__section_number__lessons__lesson_number__video" name="training[sections][_section_number_][lessons][_lesson_number_][video]" required="required" class="form-control"></textarea>
             </div>
             <div>
-                <label for="training_sections__section_number__lessons__lesson_number__explanation" class="form-label required">Explication</label>
+                <label for="training_sections__section_number__lessons__lesson_number__explanation" class="form-label required">Explications</label>
                 <textarea id="training_sections__section_number__lessons__lesson_number__explanation" name="training[sections][_section_number_][lessons][_lesson_number_][explanation]" required="required" class="form-control"></textarea>
             </div>
         </div>
     </li>' %}
 
-    {% set sectionPrototype = '<div id="training_sections__section_number_">
+    {% set sectionPrototype = '<div id="training_sections__section_number_" class="well">
         <div>
             <label for="training_sections__section_number__title" class="form-label required">Titre</label>
             <input type="text" id="training_sections__section_number__title" name="training[sections][_section_number_][title]" required="required" class="form-control" />
@@ -32,9 +32,9 @@
         <div>
             <label class="required">Leçons</label>
             <ul id="training_sections__section_number__lessons" data-prototype="' ~ lessonPrototype|e('html_attr') ~ '"></ul>
-            <button type="button" class="add_lesson_link" data-section-number="_section_number_" data-collection-holder-class="training_sections__section_number__lessons">Ajouter une leçon</button>
+            <button type="button" class="add_lesson_link btn btn-secondary" data-section-number="_section_number_" data-collection-holder-class="training_sections__section_number__lessons">Ajouter une leçon</button>
         </div>
-        <button type="button" class="delete_section_link" data-collection-holder-class="sections">Supprimer la section</button>
+        <br><button type="button" class="delete_section_link btn btn-secondary" data-collection-holder-class="sections">Supprimer la section</button><br>
     </div>' %}
 
     <h3>Sections</h3>
@@ -42,7 +42,7 @@
     <ul id="sections" data-index="{{ training.sections|length }}" data-prototype="{{ sectionPrototype|e('html_attr') }}">
         {% for key, section in training.sections %}
             <li>
-                <div id="training_sections_{{ key }}">
+                <div id="training_sections_{{ key }} " class="section-border">
                     <div>
                         <label for="training_sections_{{ key }}_title" class="required">Titre</label>
                         <input type="text" id="training_sections_{{ key }}_title" name="training[sections][{{ key }}][title]" required="required" value="{{ section.title }}">
@@ -74,17 +74,17 @@
                                 </li>
                             {% endfor %}
                         </ul>
-                        <button type="button" class="add_lesson_link" data-section-number="{{ key }}" data-collection-holder-class="training_sections_{{ key }}_lessons">Ajouter une leçon</button>
+                        <button type="button" class="add_lesson_link btn btn-secondary" data-section-number="{{ key }}" data-collection-holder-class="training_sections_{{ key }}_lessons">Ajouter une leçon</button>
                     </div>
-                    <button type="button" class="delete_section_link" data-collection-holder-class="sections">Supprimer la section</button>
+                    <br><button type="button" class="delete_section_link btn btn-secondary" data-collection-holder-class="sections">Supprimer la section</button><br>
                 </div>
             </li>
         {% endfor %}
     </ul>
     
-    <button type="button" class="add_section_link" data-collection-holder-class="sections">Ajouter une section</button>
+    <button type="button" class="add_section_link btn btn-secondary" data-collection-holder-class="sections">Ajouter une section</button>
 
-    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+    <button class="btn btn-secondary">{{ button_label|default('Sauvegarder') }}</button>
 {{ form_end(form) }}
 
 <script>
