@@ -108,4 +108,15 @@ class Question
 
         return $this;
     }
+
+    public function isValidAnswer(int $answerId): bool
+    {
+        foreach ($this->answers as $answer) {
+            if ($answer->getId() === $answerId && $answer->getIsAnswer()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
