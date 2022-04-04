@@ -9,105 +9,70 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Formation</div>
-                        <a class="nav-link" href="{{ path('trainings') }}">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        <a class="nav-link nav-training" href="{{ path('trainings_show', {'slug': training.slug}) }}">
                             {{ training.title }}
                         </a>
-
                         <div class="sb-sidenav-menu-heading">Sections</div>
-                        {% for section in training.sections %}
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
-                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            {{ section.title }}
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                {% for lesson in section.lessons %}
-                                <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                    {{ lesson.title }}
-                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                                </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="login.html">Login</a>
-                                        <a class="nav-link" href="register.html">Register</a>
-                                        <a class="nav-link" href="password.html">Forgot Password</a>
+                            <nav class="sb-sidenav-menu-nested nav accordion" >
+                                {% for section in training.sections %}
+                                    <span class="border-top"></span>
+                                    <a class="nav-link nav-training" href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
+                                <div class="nav-link nav-training">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" >
+                                        {% for lesson in section.lessons %}
+                                            <a class="nav-link nav-training" href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a>
+                                        {% endfor %}
                                     </nav>
                                 </div>
-                                {% endfor %}
-                            </nav>
-                        </div>
-                        {% endfor %}
+                            {% endfor %}
+                        </nav>
                     </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
                 </div>
             </nav>
         </div>
         <div id="layoutSidenav_content">
             <main>
                 <div class="container-fluid px-4">
-                    <h1 class="mt-4">Dashboard</h1>
+                    <h1 class="mt-4">{{ training.title }}</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item active">{{ training.description }}</li>
                     </ol>
                 </div>
-                <div class="card h-100">
-                    {% if training.image is defined and training.image %}
-                        <img class="card-img-top" src="{{ asset('/uploads/' ~ training.image.name) }}" />
-                    {% else %}
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" />
-                    {% endif %}
-                    <div class="card-body p-4">
-                        <div class="text-center">
-                            <h5 class="fw-bolder">{{ training.title }}</h5>
-                            <span class="text-center">{{ training.description }}</span>
-
-
+                <div class="main-training" >
+                    <div class="card" >
+                        {% if training.image is defined and training.image %}
+                            <img class="img-training" src="{{ asset('/uploads/' ~ training.image.name) }}" alt="Card image cap">
+                        {% else %}
+                            <img class="img-training" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+                        {% endif %}
+                        <div class="card-body">
                             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                                <p><strong>Vous avez fini {{ training.getPercentageOfAchievement(app.user) }} % de la formation</strong></p>
+                                <strong>Votre pourcentage d'avancement de la formation :</strong>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ training.getPercentageOfAchievement(app.user) }}%;" aria-valuenow="{{ training.getPercentageOfAchievement(app.user) }}" aria-valuemin="0" aria-valuemax="100">{{ training.getPercentageOfAchievement(app.user) }} %</div>
+                                </div>
                             {% endif %}
+
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>Résumé des sections</strong></li>
+                            {% for section in training.sections %}
+                                <li class="list-group-item">
+                                    <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
+                                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and section.isDone(app.user) %}
+                                        <strong class="text-success"> Terminé</strong>
+                                    {% else %}
+                                    <strong class="text-dark">À faire</strong>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <div class="card-body">
+                            <a href="{{ path('trainings') }}" class="btn btn-secondary" role="button">Retourner à la liste des formations</a>
                         </div>
                     </div>
-                    <ul>
-                        {% for section in training.sections %}
-                            <li>
-                                <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
-                                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and section.isDone(app.user) %}
-                                    <strong>Vous avez fini d'apprendre cette section.</strong>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    <p>
-                        <a href="{{ path('trainings') }}">Retourner à la liste des formations</a>
-                    </p>
                 </div>
             </main>
-            <footer class="py-4 bg-light mt-auto">
-                <div class="container-fluid px-4">
-                    <div class="d-flex align-items-center justify-content-between small">
-                        <div class="text-muted">Copyright &copy; Your Website 2022</div>
-                        <div>
-                            <a href="#">Privacy Policy</a>
-                            &middot;
-                            <a href="#">Terms &amp; Conditions</a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="js/scripts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="assets/demo/chart-area-demo.js"></script>
-    <script src="assets/demo/chart-bar-demo.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
-
 {% endblock %}

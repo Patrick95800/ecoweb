@@ -3,28 +3,78 @@
 {% block title %}{{ section.title }} - {{ lesson.title }}{% endblock %}
 
 {% block body %}
+    <div id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Formation</div>
+                        <a class="nav-link nav-training" href="{{ path('trainings_show', {'slug': training.slug}) }}">
+                            {{ training.title }}
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Sections</div>
+                        <nav class="sb-sidenav-menu-nested nav accordion" >
+                            {% for section in training.sections %}
+                                <span class="border-top"></span>
+                                <a class="nav-link nav-training" href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">{{ section.title }}</a>
+                                <div class="nav-link nav-training">
+                                    <nav class="sb-sidenav-menu-nested nav accordion" >
+                                        {% for lesson in section.lessons %}
+                                            <a class="nav-link nav-training" href="{{ path('trainings_show_lesson', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">{{ lesson.title }}</a>
+                                        {% endfor %}
+                                    </nav>
+                                </div>
+                            {% endfor %}
+                        </nav>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div id="layoutSidenav_content">
+            <main>
+                <div class="container-fluid px-4">
+                    <h1 class="mt-4">{{ lesson.title }}</h1>
+                </div>
+                <div class="main-training" >
+                    <div class="card" >
+                        {{ lesson.video|raw }}
+                        <div class="card-body">
+                            {{ lesson.explanation }}
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and lesson.isDone(app.user) %}
+                                <li class="list-group-item">
+                                    <strong class="text-success">Vous avez déjà terminé cette leçon</strong>
+                                </li>
+                            {% endif %}
+                            {% if lesson.files is defined and lesson.files|length > 0 %}
+                                {% for file in lesson.files %}
+                                    <li class="list-group-item">
+                                        <a href="{{ asset('/uploads/' ~ file.name) }}">{{ file.name }} (Fichier {{ file.extension|upper }})</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                             <li class="list-group-item">
+                                <a href="{{ path('trainings_mark_lesson_as_done', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}" class="btn btn-secondary" role="button">Terminer la leçon</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}" class="btn btn-secondary" role="button">Retourner à la formation</a>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+
+
+
     <div class="card h-100">
-        <h1>{{ lesson.title }}</h1>
 
-        {{ lesson.video|raw }}
 
-        <p>
-            {{ lesson.explanation }}
-        </p>
 
-        {% if lesson.files is defined and lesson.files|length > 0 %}
-            {% for file in lesson.files %}
-                <li><a href="{{ asset('/uploads/' ~ file.name) }}">{{ file.name }} (Fichier {{ file.extension|upper }})</a></li>
-            {% endfor %}
-        {% endif %}
-
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') and lesson.isDone(app.user) %}
-            <p><strong>Vous avez déjà appris cette leçon.</strong></p>
-        {% endif %}
-
-        <p>
-            <a href="{{ path('trainings_mark_lesson_as_done', {'slug': training.slug, 'sectionSlug': section.slug, 'lessonId': lesson.id }) }}">Terminer la leçon</a>
-            <a href="{{ path('trainings_show_section', {'slug': training.slug, 'sectionSlug': section.slug}) }}">Retourner à la section</a>
-        </p>
     </div>
 {% endblock %}
