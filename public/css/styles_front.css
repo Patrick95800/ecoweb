@@ -11,7 +11,7 @@ section.display-formation{
 }
 
 footer{
-    margin-top: 30px;
+    margin-top: 1px;
     background: #144778;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -32,15 +32,22 @@ div.main-training{
     margin-left: 100px;
     margin-right: 100px;
 }
-/*
-.card-img, .card-img-top {
-    height:300px;
-    width: 300px;
-}*/
 
 .img-training {
     height: 400px;
     width: auto;
+}
+
+.my-form{
+ pading : 20px;
+}
+
+.my-label{
+    margin-top: 20px;
+    background: #E8F0FF;
+    margin: 10px;
+    border-radius: 10px;
+
 }
 
 @media (prefers-reduced-motion: no-preference) {

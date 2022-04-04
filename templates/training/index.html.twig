@@ -11,11 +11,11 @@
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
 
-                    <button class="btn">{{ button_label|default('Rechercher') }}</button>
+                    <button class="btn btn-secondary">{{ button_label|default('Rechercher') }}</button>
                 {{ form_end(form) }}
             {% endif %}
-
-            <div class="row justify-content-center">
+            <br>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 {% for training in trainings %}
                     <div class="col mb-5">
                         <div class="card h-100">

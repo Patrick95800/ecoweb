@@ -5,37 +5,40 @@
 {% block body %}
     <h1>Quizz - {{ quizz.trainingSection.title }}</h1>
 
-    <form method="POST" action="{{ path('quizzes_show', {'id': quizz.id}) }}">
+    <form class="my-form" method="POST" action="{{ path('quizzes_show', {'id': quizz.id}) }}">
         {% for key, question in quizz.questions %}
-            <h2>{{ question.title }}</h2>
-
-            <label for="question_{{ question.id }}">{{ question.title }}</label>
-            <select name="question_{{ question.id }}" class="form-select">
+            <!--h3>{{ question.title }}</h3-->
+        <div class="my-label">
+        <h4><label  for="question_{{ question.id }}">{{ question.title }}</label></h4>
+            <!--select name="question_{{ question.id }}" class="form-select"-->
                 {% for answer in question.answers %}
-                    <option value="{{ answer.id }}">{{ answer.text }}</option>
+                    <!--option value="{{ answer.id }}">{{ answer.text }}</option-->
+                    <div>
+                        <input type="radio" id="{{ answer.id }}" name="question_{{ question.id }}" value="{{ answer.id }}">
+                        <label for="question_{{ question.id }}">{{ answer.text }}</label>
+                    </div>
                 {% endfor %}
-            </select>
+        </div>
+            <!--/select-->
 
             {% if display_answers is defined and display_answers %}
                 {% if posted_data['question_' ~ question.id] is defined and posted_data['question_' ~ question.id] and question.isValidAnswer(posted_data['question_' ~ question.id]) %}
-                    <p><strong>Bravo, vous avez trouvé la bonne réponse !</strong></p>
+                    <strong class="text-success">Bravo, vous avez trouvé la bonne réponse !</strong>
                 {% else %}
-                    <p><strong>Désolé, mauvaise réponse !</strong></p>
+                    <strong class="text-danger">Désolé, mauvaise réponse !</strong>
+                    <p>{{ question.explanation }}</p>
                 {% endif %}
 
-                <p>{{ question.explanation }}</p>
             {% endif %}
         {% endfor %}
 
-        <button type="submit" class="btn btn-primary">Envoyer</button>
+        <p><br><button type="submit" class="btn btn-secondary">Envoyer</button></p>
     </form>
 
     <p>
-        <a href="{{ path('quizzes_show', {'id': quizz.id}) }}">
-            Recommencer le quizz
-        </a>
-        <a href="{{ path('trainings_show_section', {'slug': quizz.trainingSection.training.slug, 'sectionSlug': quizz.trainingSection.slug}) }}">
-            Retourner à la section "{{ quizz.trainingSection.title }}"
+        <a href="{{ path('quizzes_show', {'id': quizz.id}) }}" class="btn btn-secondary" role="button">Recommencer le quizz</a>
+        <a href="{{ path('trainings_show_section', {'slug': quizz.trainingSection.training.slug, 'sectionSlug': quizz.trainingSection.slug}) }}" class="btn btn-secondary" role="button">
+            Retourner à la section
         </a>
     </p>
 {% endblock %}
