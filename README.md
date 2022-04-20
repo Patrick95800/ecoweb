@@ -1,8 +1,8 @@
-# Hypnos
+# Eco IT
 
 ## Introduction
 
-Hypnos is a Studi project to evaluate our dev front/ back end abilties.
+Eco IT is a Studi project to evaluate our dev front/ back end abilties.
 
 [![Hypnos website preview](https://dummyimage.com/600x400/144778/fff.png&text=EcoIT)](https://patrick-hypnos.herokuapp.com/)
 
@@ -21,7 +21,6 @@ You must have <a href="https://symfony.com/download" rel="nofollow"> Symfony</a>
 - `MAILER_DSN` : enter the full string to allow mail sending, e.g. : `MAILER_DSN=gmail://username:password@default`
 
 4) Run the following commands : 
-
 ```bash
 # Install PHP dependencies
 $ composer install
@@ -34,6 +33,7 @@ $ bin/console doctrine:schema:update --force
 
 # Load fixtures
 $ bin/console doctrine:fixtures:load
+<<<<<<< HEAD
 
 # Start local server
 $ symfony server:start
