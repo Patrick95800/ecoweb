@@ -1,9 +1,21 @@
-div.masthead{
-    background: url('../uploads/fixtures/ecoit4.jpg') no-repeat center center;
-    background-size: cover;
-    position: relative;
-    padding-top: 8rem;
-    padding-bottom: 8rem;
+@font-face {
+    font-family: 'Noto Serif';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
+}
+
+
+body {
+    height: 100%;
+    font-family: "Noto Serif", sans-serif;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+nav{
+    margin-left: -50px;
+    margin-right: -50px;
 }
 
 section.display-formation{
@@ -12,6 +24,8 @@ section.display-formation{
 
 div.custom-banner{
     background: #C6462A;
+    margin-left: -50px;
+    margin-right: -50px;
 }
 
 footer{
@@ -19,6 +33,8 @@ footer{
     background: #C6462A;
     padding-top: 10px;
     padding-bottom: 10px;
+    margin-left: -50px;
+    margin-right: -50px;
 }
 
 .btn{

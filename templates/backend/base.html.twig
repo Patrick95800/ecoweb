@@ -43,7 +43,7 @@
                             <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{ path('backend_home') }}">Accueil</a></li>
                             {% if is_granted(constant('App\\Entity\\User::ROLE_ADMIN')) %}
                                 <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('backend_users') }}">Utilisateurs</a></li>
-                                <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('backend_teacher_requests') }}">Demandes pour devenir instructeur</a></li>
+                                <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('backend_teacher_requests') }}">Demandes pour devenir formateur</a></li>
                             {% endif %}
                             {% if is_granted(constant('App\\Entity\\User::ROLE_TEACHER')) %}
                                 <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ path('backend_trainings') }}">Formations</a></li>

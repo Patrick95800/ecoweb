@@ -18,26 +18,26 @@ class TeacherRequestType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => 'Votre prénom',
+                'label' => 'Prénom',
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Votre nom',
+                'label' => 'Nom',
             ])
             ->add('email', TextType::class, [
-                'label' => 'Votre adresse email',
+                'label' => 'Email',
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez saisir l\'adresse email'])
                 ]
             ])
             ->add('plainPassword', PasswordType::class, [
-                'label' => 'Votre mot de passe',
+                'label' => 'Mot de passe',
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez saisir le mot de passe'])
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Votre description',
+                'label' => 'Description',
             ])
             ->add('photo', FileType::class,[
                 'label' => 'Votre photo',

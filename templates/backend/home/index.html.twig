@@ -6,7 +6,7 @@
     <div class="custom-banner py-md-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
-                <h1 class="display-4 fw-bolder">Administration Ecoweb</h1>
+                <h1 class="display-4 fw-bolder">Administration Eco IT</h1>
                 <p class="lead fw-normal text-white-50 mb-0">Espace de gestion</p>
             </div>
         </div>
@@ -14,7 +14,7 @@
     <div>
         {% if is_granted(constant('App\\Entity\\User::ROLE_TEACHER')) %}
             <br>
-            <p>En tant qu'instructeur vous avez la possibilité de :</p>
+            <p>En tant que formateur vous avez la possibilité de :</p>
             <ul>
                 <li>Afficher, éditer, ajouter des formations/sections/leçons.</li>
                 <li>Afficher, éditer, ajouter des quizz.</li>
@@ -25,7 +25,7 @@
             <p>En tant qu'administrateur.trice vous avez la possibilité de :</p>
             <ul>
                 <li>Afficher, éditer, ajouter des utilisateurs.</li>
-                <li>Afficher, éditer, ajouter des demandes pour devenir instructeur.</li>
+                <li>Afficher, éditer, ajouter des demandes pour devenir formateur.</li>
             </ul>
         {% endif %}
     </div>

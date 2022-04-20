@@ -13,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const ROLE_ADMIN = 'ROLE_ADMIN'; // Administrateur
-    public const ROLE_TEACHER = 'ROLE_TEACHER'; // Instructeur
+    public const ROLE_TEACHER = 'ROLE_TEACHER'; // Formateur
     public const ROLE_USER = 'ROLE_USER'; // Apprenant
 
     #[ORM\Id]
