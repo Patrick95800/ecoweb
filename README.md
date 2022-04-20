@@ -33,7 +33,6 @@ $ bin/console doctrine:schema:update --force
 
 # Load fixtures
 $ bin/console doctrine:fixtures:load
-<<<<<<< HEAD
 
 # Start local server
 $ symfony server:start
